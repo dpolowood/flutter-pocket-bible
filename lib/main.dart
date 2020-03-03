@@ -44,8 +44,6 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         textTheme: TextTheme(
           display1: TextStyle(fontSize: bibleState.fontSize),
-          // button: TextStyle(color: Colors.black),
-          // overline: TextStyle(fontSize: bibleState.overline),
         ),
         fontFamily: bibleState.fontFamily,
         accentColor: Colors.deepPurple,
@@ -58,11 +56,9 @@ class MyApp extends StatelessWidget {
           display1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
-          // overline: TextStyle(fontSize: bibleState.overline),
         ),
         brightness: Brightness.light,
         fontFamily: bibleState.fontFamily,
-        // canvasColor: Colors.white,
       );
 
   ThemeData brown(bibleState) => ThemeData(
@@ -71,7 +67,6 @@ class MyApp extends StatelessWidget {
           display1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
-          // overline: TextStyle(fontSize: bibleState.overline),
         ),
         primaryColor: Colors.brown.shade600,
         accentColor: Colors.brown.shade900,
@@ -80,14 +75,12 @@ class MyApp extends StatelessWidget {
       );
 
   ThemeData genie(bibleState) => ThemeData(
-        // iconTheme: IconThemeData(color: Colors.indigo.shade200),
         primaryColor: Colors.indigo.shade300,
         canvasColor: Colors.indigo.shade100,
         textTheme: TextTheme(
           display1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
-          // overline: TextStyle(fontSize: bibleState.overline),
         ),
         fontFamily: bibleState.fontFamily,
       );

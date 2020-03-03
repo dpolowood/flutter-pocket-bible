@@ -1,18 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'package:dropdownmenu/models/bible_tables.dart';
-import 'package:dropdownmenu/bloc/bible_bloc.dart';
+import 'package:pocketbible/models/bible_tables.dart';
+import 'package:pocketbible/bloc/bible_bloc.dart';
 
 class BibleHomePage extends StatelessWidget {
-  BibleBloc bibleState;
+  final BibleBloc bibleState;
 
   BibleHomePage(this.bibleState);
 
   @override
   Widget build(BuildContext context) {
-    double smallSwipe = MediaQuery.of(context).size.width * (10 / 100);
-    double longSwipe = MediaQuery.of(context).size.width * (60 / 100);
+    double smallSwipe = MediaQuery.of(context).size.width * .15;
+    double longSwipe = MediaQuery.of(context).size.width * .60;
     var startPosition;
     var updatePosition;
 
@@ -275,7 +275,7 @@ class BibleSearch extends SearchDelegate {
 }
 
 class SettingsPage extends StatefulWidget {
-  BibleBloc bibleState;
+  final BibleBloc bibleState;
 
   SettingsPage(this.bibleState);
 

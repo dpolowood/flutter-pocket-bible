@@ -6,7 +6,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:dropdownmenu/models/bible_tables.dart';
+import 'package:pocketbible/models/bible_tables.dart';
 
 class DatabaseHelper {
   static DatabaseHelper _databaseHelper;
@@ -55,9 +55,8 @@ class DatabaseHelper {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
 
-      // ByteData data = await rootBundle.load(join("lib", "assets", "RV1960.db"));
       ByteData data =
-          await rootBundle.load(join("lib", "assets", databaseName));
+          await rootBundle.load(join("assets", databaseName));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 

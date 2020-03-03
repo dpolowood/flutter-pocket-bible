@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:dropdownmenu/models/bible_tables.dart';
-import 'package:dropdownmenu/utils/database_helper.dart';
+import 'package:pocketbible/models/bible_tables.dart';
+import 'package:pocketbible/utils/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 
