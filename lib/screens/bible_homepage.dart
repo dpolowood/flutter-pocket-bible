@@ -124,8 +124,8 @@ class BibleHomePage extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Container(
               padding: const EdgeInsets.all(2.0),
-              child: RichText(
-                text: TextSpan(
+              child: SelectableText.rich(
+                TextSpan(
                   children: <TextSpan>[
                     TextSpan(
                         text:
@@ -137,6 +137,10 @@ class BibleHomePage extends StatelessWidget {
                     ),
                   ],
                 ),
+                cursorWidth: 5,
+                cursorColor: Colors.green,
+                cursorRadius: Radius.circular(5),
+                toolbarOptions: ToolbarOptions(copy: true),
               ),
             );
           },
@@ -146,8 +150,8 @@ class BibleHomePage extends StatelessWidget {
   SingleChildScrollView firstTextBox(bibleState, context) =>
       SingleChildScrollView(
         controller: bibleState.getScrollController(),
-        child: RichText(
-          text: TextSpan(
+        child: SelectableText.rich(
+          TextSpan(
             children: bibleState.getVerses().map<InlineSpan>(
               (Verses verse) {
                 return TextSpan(
@@ -165,6 +169,7 @@ class BibleHomePage extends StatelessWidget {
               },
             ).toList(),
           ),
+          toolbarOptions: ToolbarOptions(copy: true),
         ),
       );
 
