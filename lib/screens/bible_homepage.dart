@@ -17,78 +17,90 @@ class BibleHomePage extends StatelessWidget {
     var updatePosition;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.search, color: Theme.of(context).iconTheme.color),
-          onPressed: () async {
-            await showSearch(
-              context: context,
-              delegate: BibleSearch(bibleState),
-            );
-          },
-        ),
-        actions: <Widget>[
-          Container(
-            child: bookDropDown(bibleState, context),
-            padding: const EdgeInsets.only(top: 16.0, right: 12.0),
+      body: CustomScrollView(
+        controller: bibleState.getScrollController(),
+        slivers: <Widget>[
+          SliverAppBar(
+            pinned: false,
+            floating: true,
+            snap: true,
+            leading: IconButton(
+              icon:
+                  Icon(Icons.search, color: Theme.of(context).iconTheme.color),
+              onPressed: () async {
+                await showSearch(
+                  context: context,
+                  delegate: BibleSearch(bibleState),
+                );
+              },
+            ),
+            actions: <Widget>[
+              Container(
+                child: bookDropDown(bibleState, context),
+                padding: const EdgeInsets.only(top: 16.0, right: 12.0),
+              ),
+              Container(
+                child: chapterDropDown(bibleState, context),
+                padding: const EdgeInsets.only(top: 16.0, right: 2.0),
+              ),
+              IconButton(
+                icon: Icon(Icons.language,
+                    color: Theme.of(context).iconTheme.color),
+                tooltip: 'Change Version',
+                onPressed: () {
+                  var check = bibleState.getCheck();
+                  if (check == true) {
+                    bibleState.changeVersion('NEWESV.db');
+                  } else {
+                    bibleState.changeVersion('RV1960.db');
+                  }
+                  bibleState.changeCheck();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.settings,
+                    color: Theme.of(context).iconTheme.color),
+                tooltip: "Settings page",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingsPage(bibleState),
+                    ),
+                  );
+                },
+              )
+            ],
           ),
-          Container(
-            child: chapterDropDown(bibleState, context),
-            padding: const EdgeInsets.only(top: 16.0, right: 2.0),
-          ),
-          IconButton(
-            icon:
-                Icon(Icons.language, color: Theme.of(context).iconTheme.color),
-            tooltip: 'Change Version',
-            onPressed: () {
-              var check = bibleState.getCheck();
-              if (check == true) {
-                bibleState.changeVersion('NEWESV.db');
-              } else {
-                bibleState.changeVersion('RV1960.db');
-              }
-              bibleState.changeCheck();
-            },
-          ),
-          IconButton(
-            icon:
-                Icon(Icons.settings, color: Theme.of(context).iconTheme.color),
-            tooltip: "Settings page",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SettingsPage(bibleState),
-                ),
-              );
-            },
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: GestureDetector(
+              onHorizontalDragStart: (DragStartDetails start) {
+                startPosition = start.globalPosition.dx;
+              },
+              onHorizontalDragUpdate: (DragUpdateDetails update) {
+                updatePosition = update.globalPosition.dx;
+              },
+              onHorizontalDragEnd: (DragEndDetails end) {
+                if ((startPosition - updatePosition) > smallSwipe &&
+                    (startPosition - updatePosition) < longSwipe) {
+                  bibleState.nextChapter();
+                } else if ((startPosition - updatePosition) > longSwipe) {
+                  bibleState.nextBook();
+                } else if ((startPosition - updatePosition) < -smallSwipe &&
+                    (startPosition - updatePosition) > -longSwipe) {
+                  bibleState.previousChapter();
+                } else if ((startPosition - updatePosition) < -longSwipe) {
+                  bibleState.previousBook();
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                child: getCustomTextBox(bibleState, context),
+              ),
+            ),
           )
         ],
-      ),
-      body: GestureDetector(
-        onHorizontalDragStart: (DragStartDetails start) {
-          startPosition = start.globalPosition.dx;
-        },
-        onHorizontalDragUpdate: (DragUpdateDetails update) {
-          updatePosition = update.globalPosition.dx;
-        },
-        onHorizontalDragEnd: (DragEndDetails end) {
-          if ((startPosition - updatePosition) > smallSwipe &&
-              (startPosition - updatePosition) < longSwipe) {
-            bibleState.nextChapter();
-          } else if ((startPosition - updatePosition) > longSwipe) {
-            bibleState.nextBook();
-          } else if ((startPosition - updatePosition) < -smallSwipe &&
-              (startPosition - updatePosition) > -longSwipe) {
-            bibleState.previousChapter();
-          } else if ((startPosition - updatePosition) < -longSwipe) {
-            bibleState.previousBook();
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-          child: getCustomTextBox(bibleState, context),
-        ),
       ),
     );
   }
@@ -189,7 +201,7 @@ class BibleSearch extends SearchDelegate {
     assert(context != null);
     final ThemeData theme = Theme.of(context);
     assert(theme != null);
-    return theme; 
+    return theme;
   }
 
   @override
@@ -241,8 +253,9 @@ class BibleSearch extends SearchDelegate {
                   return Container(
                     child: ListTile(
                       dense: false,
-                      leading: Text("${secondLinkedList[results[index].verseBookNumber]} " +
-                          "${results[index].chapter}"),
+                      leading: Text(
+                          "${secondLinkedList[results[index].verseBookNumber]} " +
+                              "${results[index].chapter}"),
                       title: Text("${results[index].verseNumber} " +
                           results[index].text),
                       onTap: () {
