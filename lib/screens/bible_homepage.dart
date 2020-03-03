@@ -94,10 +94,7 @@ class BibleHomePage extends StatelessWidget {
                   bibleState.previousBook();
                 }
               },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                child: firstTextBox(bibleState, context),
-              ),
+              child: firstTextBox(bibleState, context),
             ),
           )
         ],
@@ -107,6 +104,7 @@ class BibleHomePage extends StatelessWidget {
 
   SingleChildScrollView firstTextBox(bibleState, context) =>
       SingleChildScrollView(
+        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
         controller: bibleState.getScrollController(),
         child: SelectableText.rich(
           TextSpan(
@@ -221,7 +219,7 @@ class BibleSearch extends SearchDelegate {
                       dense: false,
                       leading: Text(
                           "${secondLinkedList[results[index].verseBookNumber]} " +
-                              "${results[index].chapter}"),
+                              "${results[index].chapter}",style: TextStyle(fontWeight: FontWeight.bold),),
                       title: Text("${results[index].verseNumber} " +
                           results[index].text),
                       onTap: () {

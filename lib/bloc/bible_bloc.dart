@@ -285,7 +285,7 @@ class BibleBloc with ChangeNotifier {
   }
 
   bool textBoxMarker = true;
-  var textView;
+  var textView = "\n";
 
   changeView(bool value) {
     if (textBoxMarker == true) {
