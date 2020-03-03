@@ -96,7 +96,7 @@ class BibleHomePage extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                child: getCustomTextBox(bibleState, context),
+                child: firstTextBox(bibleState, context),
               ),
             ),
           )
@@ -104,48 +104,6 @@ class BibleHomePage extends StatelessWidget {
       ),
     );
   }
-
-  Widget getCustomTextBox(bibleState, context) {
-    var textBoxMarker = bibleState.getTextBoxMarker();
-    switch (textBoxMarker) {
-      case true:
-        return firstTextBox(bibleState, context);
-      case false:
-        return secondTextBox(bibleState, context);
-    }
-
-    return firstTextBox(bibleState, context);
-  }
-
-  Container secondTextBox(bibleState, context) => Container(
-        child: ListView.builder(
-          controller: bibleState.getScrollController(),
-          itemCount: bibleState.getVerses().length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              padding: const EdgeInsets.all(2.0),
-              child: SelectableText.rich(
-                TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                        text:
-                            "${bibleState.getVerses()[index].verseNumber + 1} ",
-                        style: Theme.of(context).textTheme.overline),
-                    TextSpan(
-                      text: bibleState.getVerses()[index].text,
-                      style: Theme.of(context).textTheme.display1,
-                    ),
-                  ],
-                ),
-                cursorWidth: 5,
-                cursorColor: Colors.green,
-                cursorRadius: Radius.circular(5),
-                toolbarOptions: ToolbarOptions(copy: true),
-              ),
-            );
-          },
-        ),
-      );
 
   SingleChildScrollView firstTextBox(bibleState, context) =>
       SingleChildScrollView(
@@ -161,7 +119,7 @@ class BibleHomePage extends StatelessWidget {
                       style: Theme.of(context).textTheme.overline,
                     ),
                     TextSpan(
-                      text: verse.text,
+                      text: verse.text + bibleState.textView,
                       style: Theme.of(context).textTheme.display1,
                     ),
                   ],
@@ -169,6 +127,9 @@ class BibleHomePage extends StatelessWidget {
               },
             ).toList(),
           ),
+          cursorWidth: 5,
+          cursorColor: Colors.green,
+          cursorRadius: Radius.circular(5),
           toolbarOptions: ToolbarOptions(copy: true),
         ),
       );

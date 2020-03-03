@@ -287,13 +287,17 @@ class BibleBloc with ChangeNotifier {
   }
 
   bool textBoxMarker = true;
+  var textView;
 
   changeView(bool value) {
     if (textBoxMarker == true) {
       textBoxMarker = false;
+      textView = "";
     } else {
       textBoxMarker = true;
+      textView = "\n";
     }
+
 
     addTextViewtoSP();
 
