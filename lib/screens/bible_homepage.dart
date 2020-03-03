@@ -69,7 +69,7 @@ class BibleHomePage extends StatelessWidget {
                     ),
                   );
                 },
-              )
+              ),
             ],
           ),
           SliverFillRemaining(
@@ -96,7 +96,7 @@ class BibleHomePage extends StatelessWidget {
               },
               child: firstTextBox(bibleState, context),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -218,8 +218,10 @@ class BibleSearch extends SearchDelegate {
                     child: ListTile(
                       dense: false,
                       leading: Text(
-                          "${secondLinkedList[results[index].verseBookNumber]} " +
-                              "${results[index].chapter}",style: TextStyle(fontWeight: FontWeight.bold),),
+                        "${secondLinkedList[results[index].verseBookNumber]} " +
+                            "${results[index].chapter}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       title: Text("${results[index].verseNumber} " +
                           results[index].text),
                       onTap: () {
