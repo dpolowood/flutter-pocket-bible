@@ -127,9 +127,6 @@ class BibleHomePage extends StatelessWidget {
               },
             ).toList(),
           ),
-          cursorWidth: 5,
-          cursorColor: Colors.green,
-          cursorRadius: Radius.circular(5),
           toolbarOptions: ToolbarOptions(copy: true),
         ),
       );

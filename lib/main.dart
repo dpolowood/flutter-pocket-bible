@@ -47,6 +47,8 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: bibleState.fontFamily,
         accentColor: Colors.deepPurple,
+        textSelectionColor: Colors.deepPurple.shade800,
+        textSelectionHandleColor: Colors.deepPurple.shade400,
       );
 
   ThemeData softGreen(bibleState) => ThemeData(
@@ -59,6 +61,8 @@ class MyApp extends StatelessWidget {
         ),
         brightness: Brightness.light,
         fontFamily: bibleState.fontFamily,
+        textSelectionHandleColor: Colors.green.shade400,
+        textSelectionColor: Colors.green.shade100,
       );
 
   ThemeData brown(bibleState) => ThemeData(
@@ -70,8 +74,10 @@ class MyApp extends StatelessWidget {
         ),
         primaryColor: Colors.brown.shade600,
         accentColor: Colors.brown.shade900,
-        canvasColor: Colors.brown.shade200,
+        canvasColor: Colors.white,
         fontFamily: bibleState.fontFamily,
+        textSelectionColor: Colors.brown.shade100,
+        textSelectionHandleColor: Colors.brown.shade400,
       );
 
   ThemeData genie(bibleState) => ThemeData(
@@ -83,5 +89,7 @@ class MyApp extends StatelessWidget {
           button: TextStyle(color: Colors.black),
         ),
         fontFamily: bibleState.fontFamily,
+        textSelectionHandleColor: Colors.indigo.shade400,
+        textSelectionColor: Colors.indigo.shade200,
       );
 }
