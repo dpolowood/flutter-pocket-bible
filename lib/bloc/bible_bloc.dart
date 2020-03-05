@@ -8,6 +8,8 @@ import 'package:package_info/package_info.dart';
 
 class BibleBloc with ChangeNotifier {
 
+  var test;
+
   DatabaseHelper _databaseHelper = DatabaseHelper();
   String bookValue;
   String chapterValue;
