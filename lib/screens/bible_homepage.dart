@@ -96,7 +96,7 @@ class BibleHomePage extends StatelessWidget {
                   bibleState.previousBook();
                 }
               },
-              child: firstTextBox(bibleState, context),
+              child: textBox(bibleState, context),
             ),
           ),
         ],
@@ -104,7 +104,7 @@ class BibleHomePage extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView firstTextBox(bibleState, context) =>
+  SingleChildScrollView textBox(bibleState, context) =>
       SingleChildScrollView(
         padding: const EdgeInsets.only(left: 12.0, right: 12.0),
         controller: bibleState.getScrollController(),
