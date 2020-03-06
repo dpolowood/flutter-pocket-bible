@@ -7,7 +7,6 @@ import 'package:pocketbible/screens/settings_page.dart';
 import 'package:pocketbible/screens/search_page.dart';
 
 
-// test
 class BibleHomePage extends StatelessWidget {
   final BibleBloc bibleState;
 
