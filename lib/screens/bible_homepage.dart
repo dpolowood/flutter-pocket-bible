@@ -6,6 +6,8 @@ import 'package:pocketbible/bloc/bible_bloc.dart';
 import 'package:pocketbible/screens/settings_page.dart';
 import 'package:pocketbible/screens/search_page.dart';
 
+
+// test
 class BibleHomePage extends StatelessWidget {
   final BibleBloc bibleState;
 
@@ -46,8 +48,10 @@ class BibleHomePage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 16.0, right: 2.0),
               ),
               IconButton(
-                icon: Icon(Icons.language,
-                    color: Theme.of(context).iconTheme.color),
+                icon: Icon(
+                  Icons.language,
+                  color: Theme.of(context).iconTheme.color,
+                ),
                 tooltip: 'Change Version',
                 onPressed: () {
                   var check = bibleState.getCheck();
@@ -60,8 +64,10 @@ class BibleHomePage extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.settings,
-                    color: Theme.of(context).iconTheme.color),
+                icon: Icon(
+                  Icons.settings,
+                  color: Theme.of(context).iconTheme.color,
+                ),
                 tooltip: "Settings page",
                 onPressed: () {
                   Navigator.push(
@@ -104,8 +110,7 @@ class BibleHomePage extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView textBox(bibleState, context) =>
-      SingleChildScrollView(
+  SingleChildScrollView textBox(bibleState, context) => SingleChildScrollView(
         padding: const EdgeInsets.only(left: 12.0, right: 12.0),
         controller: bibleState.getScrollController(),
         child: SelectableText.rich(
