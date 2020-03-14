@@ -6,7 +6,6 @@ import 'package:pocketbible/bloc/bible_bloc.dart';
 import 'package:pocketbible/screens/settings_page.dart';
 import 'package:pocketbible/screens/search_page.dart';
 
-
 class BibleHomePage extends StatelessWidget {
   final BibleBloc bibleState;
 
@@ -116,6 +115,7 @@ class BibleHomePage extends StatelessWidget {
           TextSpan(
             children: bibleState.getVerses().map<InlineSpan>(
               (Verses verse) {
+                // textSpanQuery(verse, context);
                 return TextSpan(
                   children: <TextSpan>[
                     TextSpan(
@@ -123,8 +123,7 @@ class BibleHomePage extends StatelessWidget {
                       style: Theme.of(context).textTheme.overline,
                     ),
                     TextSpan(
-                      text: verse.text + bibleState.textView,
-                      style: Theme.of(context).textTheme.display1,
+                      children: textSpanQuery(verse, context),
                     ),
                   ],
                 );
@@ -134,6 +133,45 @@ class BibleHomePage extends StatelessWidget {
           toolbarOptions: ToolbarOptions(copy: true),
         ),
       );
+
+  textSpanQuery(verseObject, context) {
+    var verseString = verseObject.text;
+    var verseQuery = bibleState.bookQuery;
+    var verseString1 = "";
+    List<TextSpan> newList = new List<TextSpan>();
+
+    if (bibleState.bookQuery != null) {
+      while (verseString.contains(verseQuery)) {
+        verseString1 =
+            verseString.substring(0, verseString.indexOf(verseQuery));
+        verseString = verseString.substring(
+            verseString.indexOf(verseQuery) + verseQuery.length,
+            verseString.length);
+
+        newList.add(
+          TextSpan(
+            text: verseString1,
+            style: Theme.of(context).textTheme.display1,
+          ),
+        );
+        newList.add(
+          TextSpan(
+            text: verseQuery,
+            style: Theme.of(context).textTheme.display4,
+          ),
+        );
+      }
+    }
+
+    newList.add(
+      TextSpan(
+        text: verseString + bibleState.textView,
+        style: Theme.of(context).textTheme.display1,
+      ),
+    );
+
+    return newList;
+  }
 
   DropdownButton bookDropDown(bibleState, context) => DropdownButton<String>(
         items: bibleState.getBookDropDown(),

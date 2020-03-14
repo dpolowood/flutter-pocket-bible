@@ -12,6 +12,8 @@ class DatabaseHelper {
   static DatabaseHelper _databaseHelper;
   static Database _database;
 
+  String searchQuery = "";
+
   String bookNumber = 'book_number';
   String bookName = 'long_name';
   String booksTable = 'books';

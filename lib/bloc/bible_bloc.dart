@@ -279,8 +279,11 @@ class BibleBloc with ChangeNotifier {
     }
   }
 
+  var bookQuery;
+
   Future<List<Verses>> updateResults(String query) async {
     final resultsList = await _databaseHelper.getResults(query);
+    bookQuery = query;
     return resultsList;
   }
 

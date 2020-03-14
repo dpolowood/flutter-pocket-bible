@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         textTheme: TextTheme(
           display1: TextStyle(fontSize: bibleState.fontSize),
+          display4: TextStyle(backgroundColor: Colors.deepPurple.shade400, fontSize: bibleState.fontSize),
         ),
         fontFamily: bibleState.fontFamily,
         accentColor: Colors.deepPurple,
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           display1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
+          display4: TextStyle(backgroundColor: Colors.green.shade400, fontSize: bibleState.fontSize),
         ),
         brightness: Brightness.light,
         fontFamily: bibleState.fontFamily,
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
           display1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
+          display4: TextStyle(backgroundColor: Colors.brown.shade100, fontSize: bibleState.fontSize),
         ),
         primaryColor: Colors.brown.shade600,
         accentColor: Colors.brown.shade900,
@@ -87,6 +90,7 @@ class MyApp extends StatelessWidget {
           display1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
+          display4: TextStyle(backgroundColor: Colors.indigo.shade200, fontSize: bibleState.fontSize),
         ),
         fontFamily: bibleState.fontFamily,
         textSelectionHandleColor: Colors.indigo.shade400,
