@@ -52,13 +52,11 @@ class BibleHomePage extends StatelessWidget {
                 ),
                 tooltip: 'Change Version',
                 onPressed: () {
-                  var check = bibleState.getCheck();
-                  if (check == true) {
+                  if (bibleState.databaseNameState == 'RV1960.db') {
                     bibleState.changeVersion('NEWESV.db');
                   } else {
                     bibleState.changeVersion('RV1960.db');
                   }
-                  bibleState.changeCheck();
                 },
               ),
               IconButton(

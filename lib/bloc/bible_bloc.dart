@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pocketbible/models/bible_tables.dart';
 import 'package:pocketbible/utils/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:package_info/package_info.dart';
 
 class BibleBloc with ChangeNotifier {
   DatabaseHelper _databaseHelper = DatabaseHelper();
@@ -16,6 +15,7 @@ class BibleBloc with ChangeNotifier {
       List<DropdownMenuItem<String>>();
   List<DropdownMenuItem<String>> bookItems = List<DropdownMenuItem<String>>();
   List<Books> bookList;
+  String databaseNameState;
 
   Map linkedList = Map();
   Map secondLinkedList = Map();
@@ -28,8 +28,8 @@ class BibleBloc with ChangeNotifier {
   BibleBloc() {
     bookValue = "10";
     chapterValue = "1";
-    String databaseName = 'RV1960.db';
-    this.onStart(databaseName);
+    databaseNameState = 'RV1960.db';
+    this.onStart(databaseNameState);
     getValueSP();
   }
 
@@ -121,14 +121,6 @@ class BibleBloc with ChangeNotifier {
     await _queryBooks();
     await updateChapterView(int.parse(bookValue), int.parse(chapterValue));
 
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    String version = packageInfo.version;
-    String buildNumber = packageInfo.buildNumber;
-
-    print(version);
-    print(buildNumber);
-
     notifyListeners();
   }
 
@@ -148,6 +140,7 @@ class BibleBloc with ChangeNotifier {
   }
 
   void nextBook() async {
+
     if (int.parse(bookValue) < 730) {
       do {
         bookValue = "${int.parse(bookValue) + 10}";
@@ -224,6 +217,7 @@ class BibleBloc with ChangeNotifier {
   }
 
   void changeVersion(databaseName) async {
+    databaseNameState = databaseName;
     await onStart(databaseName);
   }
 
@@ -301,18 +295,6 @@ class BibleBloc with ChangeNotifier {
   }
 
   getTextBoxMarker() => textBoxMarker;
-
-  var check = true;
-
-  changeCheck() {
-    if (check == true) {
-      check = false;
-    } else {
-      check = true;
-    }
-  }
-
-  getCheck() => check;
 
   swipeResults(start, update, smallSwipe, longSwipe) {
     if ((start - update) > smallSwipe && (start - update) < longSwipe) {
