@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 
 class BibleBloc with ChangeNotifier {
-
   DatabaseHelper _databaseHelper = DatabaseHelper();
   String bookValue;
   String chapterValue;
@@ -34,26 +33,25 @@ class BibleBloc with ChangeNotifier {
     getValueSP();
   }
 
-  Future addFontSizetoSP() async{
+  Future addFontSizetoSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setDouble('fontSize', fontSizeValue);
   }
 
-  Future addFonttoSP() async{
+  Future addFonttoSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString('font', font);
   }
 
-  Future addThemetoSP() async{
-    
+  Future addThemetoSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString('theme', theme);
   }
 
-  Future addTextViewtoSP() async{
+  Future addTextViewtoSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setBool('textBoxMarker', textBoxMarker);
@@ -62,20 +60,19 @@ class BibleBloc with ChangeNotifier {
   Future getValueSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if(prefs.containsKey('fontSize') == true) {
+    if (prefs.containsKey('fontSize') == true) {
       fontSizeValue = prefs.getDouble('fontSize');
       slider = fontSizeValue - 14;
     }
-    if(prefs.containsKey('textBoxMarker') == true) {
+    if (prefs.containsKey('textBoxMarker') == true) {
       textBoxMarker = prefs.getBool('textBoxMarker');
     }
-    if(prefs.containsKey('font') == true) {
+    if (prefs.containsKey('font') == true) {
       font = prefs.getString('font');
     }
-    if(prefs.containsKey('theme') == true) {
+    if (prefs.containsKey('theme') == true) {
       theme = prefs.getString('theme');
     }
-    
   }
 
   void changeTheme(newTheme) {
@@ -88,7 +85,7 @@ class BibleBloc with ChangeNotifier {
 
   void changeFont(newFont) {
     font = newFont;
-    
+
     addFonttoSP();
 
     notifyListeners();
@@ -124,12 +121,11 @@ class BibleBloc with ChangeNotifier {
     await _queryBooks();
     await updateChapterView(int.parse(bookValue), int.parse(chapterValue));
 
-
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     String version = packageInfo.version;
     String buildNumber = packageInfo.buildNumber;
-    
+
     print(version);
     print(buildNumber);
 
@@ -299,7 +295,6 @@ class BibleBloc with ChangeNotifier {
       textView = "\n";
     }
 
-
     addTextViewtoSP();
 
     notifyListeners();
@@ -318,4 +313,17 @@ class BibleBloc with ChangeNotifier {
   }
 
   getCheck() => check;
+
+  swipeResults(start, update, smallSwipe, longSwipe) {
+    if ((start - update) > smallSwipe && (start - update) < longSwipe) {
+      nextChapter();
+    } else if ((start - update) > longSwipe) {
+      nextBook();
+    } else if ((start - update) < -smallSwipe &&
+        (start - update) > -longSwipe) {
+      previousChapter();
+    } else if ((start - update) < -longSwipe) {
+      previousBook();
+    }
+  }
 }

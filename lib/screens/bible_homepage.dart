@@ -88,17 +88,7 @@ class BibleHomePage extends StatelessWidget {
                 updatePosition = update.globalPosition.dx;
               },
               onHorizontalDragEnd: (DragEndDetails end) {
-                if ((startPosition - updatePosition) > smallSwipe &&
-                    (startPosition - updatePosition) < longSwipe) {
-                  bibleState.nextChapter();
-                } else if ((startPosition - updatePosition) > longSwipe) {
-                  bibleState.nextBook();
-                } else if ((startPosition - updatePosition) < -smallSwipe &&
-                    (startPosition - updatePosition) > -longSwipe) {
-                  bibleState.previousChapter();
-                } else if ((startPosition - updatePosition) < -longSwipe) {
-                  bibleState.previousBook();
-                }
+                bibleState.swipeResults(startPosition, updatePosition, smallSwipe, longSwipe);
               },
               child: textBox(bibleState, context),
             ),
@@ -115,7 +105,6 @@ class BibleHomePage extends StatelessWidget {
           TextSpan(
             children: bibleState.getVerses().map<InlineSpan>(
               (Verses verse) {
-                // textSpanQuery(verse, context);
                 return TextSpan(
                   children: <TextSpan>[
                     TextSpan(
@@ -134,7 +123,7 @@ class BibleHomePage extends StatelessWidget {
         ),
       );
 
-  textSpanQuery(verseObject, context) {
+  List<TextSpan> textSpanQuery(verseObject, context) {
     var verseString = verseObject.text;
     var verseQuery = bibleState.bookQuery;
     var verseString1 = "";
