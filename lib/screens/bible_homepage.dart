@@ -86,7 +86,8 @@ class BibleHomePage extends StatelessWidget {
                 updatePosition = update.globalPosition.dx;
               },
               onHorizontalDragEnd: (DragEndDetails end) {
-                bibleState.swipeResults(startPosition, updatePosition, smallSwipe, longSwipe);
+                bibleState.swipeResults(
+                    startPosition, updatePosition, smallSwipe, longSwipe);
               },
               child: textBox(bibleState, context),
             ),
@@ -161,7 +162,7 @@ class BibleHomePage extends StatelessWidget {
   }
 
   DropdownButton bookDropDown(bibleState, context) => DropdownButton<String>(
-        items: bibleState.getBookDropDown(),
+        items: makeBookDropDown(),
         onChanged: (userValue) {
           bibleState.onBookSelect(userValue);
         },
@@ -181,4 +182,19 @@ class BibleHomePage extends StatelessWidget {
         isDense: true,
         elevation: 8,
       );
+
+  makeBookDropDown() {
+    List<DropdownMenuItem> bookItems = List<DropdownMenuItem>();
+
+    bookItems = bibleState.bookList.map(
+      (Books book) {
+        return DropdownMenuItem(
+          value: "${book.bookNumber}",
+          child: Text(book.bookName),
+        );
+      },
+    ).toList();
+
+    return bookItems;
+  }
 }

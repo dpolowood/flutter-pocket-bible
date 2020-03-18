@@ -14,7 +14,7 @@ class BibleBloc with ChangeNotifier {
   List<DropdownMenuItem<String>> chaptersItems =
       List<DropdownMenuItem<String>>();
   List<DropdownMenuItem<String>> bookItems = List<DropdownMenuItem<String>>();
-  List<Books> bookList;
+  List<Books> bookList = List<Books>();
   String databaseNameState;
 
   Map linkedList = Map();
@@ -118,7 +118,7 @@ class BibleBloc with ChangeNotifier {
 
   Future onStart(databaseName) async {
     await _databaseHelper.initializeDatabase(databaseName);
-    await _queryBooks();
+    bookList = await _databaseHelper.getBookList();
     await updateChapterView(int.parse(bookValue), int.parse(chapterValue));
 
     notifyListeners();
@@ -140,7 +140,6 @@ class BibleBloc with ChangeNotifier {
   }
 
   void nextBook() async {
-
     if (int.parse(bookValue) < 730) {
       do {
         bookValue = "${int.parse(bookValue) + 10}";
@@ -224,39 +223,26 @@ class BibleBloc with ChangeNotifier {
   get linkedL => linkedList;
   get secondLL => secondLinkedList;
 
-  Future _queryBooks() async {
-    bookList = await _databaseHelper.getBookList();
-    bookItems.length = 0;
-    for (var ii = 0; ii < bookList.length; ii++) {
-      bookItems.add(
-        DropdownMenuItem(
-          value: "${bookList[ii].bookNumber}",
-          child: Text(bookList[ii].bookName),
-        ),
-      );
-
-      linkedList[bookList[ii].bookName] = bookList[ii].bookNumber;
-
-      secondLinkedList[bookList[ii].bookNumber] = bookList[ii].bookName;
-    }
-  }
-
   Future updateChapterView(int bookNumber, int checkValue) async {
     final chapterList = await _databaseHelper.getChapterList(bookNumber);
     chaptersItems.length = 0;
 
     for (var ii = 0; ii < chapterList.length; ii++) {
-      chaptersItems.add(DropdownMenuItem(
-        value: "${chapterList[ii]}",
-        child: Text("${chapterList[ii]}"),
-      ));
+      chaptersItems.add(
+        DropdownMenuItem(
+          value: "${chapterList[ii]}",
+          child: Text("${chapterList[ii]}"),
+        ),
+      );
     }
 
     if (checkValue == -1) {
       await updateText(chaptersItems.length);
       chapterValue = "${chaptersItems.length}";
     } else {
-      await updateText(int.parse(chapterValue));
+      await updateText(
+        int.parse(chapterValue),
+      );
     }
   }
 
