@@ -11,9 +11,6 @@ class BibleBloc with ChangeNotifier {
   String chapterValue;
   ScrollController myScrollController = ScrollController();
   List<Verses> versesItems = List<Verses>();
-  List<DropdownMenuItem<String>> chaptersItems =
-      List<DropdownMenuItem<String>>();
-  List<DropdownMenuItem<String>> bookItems = List<DropdownMenuItem<String>>();
   List<Books> bookList = List<Books>();
   String databaseNameState;
 
@@ -111,8 +108,6 @@ class BibleBloc with ChangeNotifier {
 
   getBookValue() => bookValue;
   getChapterValue() => chapterValue;
-  getBookDropDown() => bookItems;
-  getChapterDropDown() => chaptersItems;
   getVerses() => versesItems;
   getScrollController() => myScrollController;
 
@@ -158,7 +153,7 @@ class BibleBloc with ChangeNotifier {
   }
 
   void nextChapter() async {
-    if (int.parse(chapterValue) < chaptersItems.length) {
+    if (int.parse(chapterValue) < chapterList.length) {
       chapterValue = "${int.parse(chapterValue) + 1}";
       await updateText(int.parse(chapterValue));
       myScrollController.jumpTo(0);
@@ -219,26 +214,20 @@ class BibleBloc with ChangeNotifier {
     databaseNameState = databaseName;
     await onStart(databaseName);
   }
+  // TODO: Make linked lists
 
   get linkedL => linkedList;
   get secondLL => secondLinkedList;
 
-  Future updateChapterView(int bookNumber, int checkValue) async {
-    final chapterList = await _databaseHelper.getChapterList(bookNumber);
-    chaptersItems.length = 0;
+  List<String> chapterList = List<String>();
 
-    for (var ii = 0; ii < chapterList.length; ii++) {
-      chaptersItems.add(
-        DropdownMenuItem(
-          value: "${chapterList[ii]}",
-          child: Text("${chapterList[ii]}"),
-        ),
-      );
-    }
+  Future updateChapterView(int bookNumber, int checkValue) async {
+    chapterList = await _databaseHelper.getChapterList(bookNumber);
+    notifyListeners();
 
     if (checkValue == -1) {
-      await updateText(chaptersItems.length);
-      chapterValue = "${chaptersItems.length}";
+      await updateText(chapterList.length);
+      chapterValue = "${chapterList.length}";
     } else {
       await updateText(
         int.parse(chapterValue),

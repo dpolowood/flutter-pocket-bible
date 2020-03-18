@@ -173,7 +173,7 @@ class BibleHomePage extends StatelessWidget {
       );
 
   DropdownButton chapterDropDown(bibleState, context) => DropdownButton<String>(
-        items: bibleState.getChapterDropDown(),
+        items: makeChapterDropDown(),
         onChanged: (userValue) {
           bibleState.onChapterSelect(userValue);
         },
@@ -196,5 +196,20 @@ class BibleHomePage extends StatelessWidget {
     ).toList();
 
     return bookItems;
+  }
+
+  makeChapterDropDown() {
+    List<DropdownMenuItem> chapterItems = List<DropdownMenuItem>();
+
+    chapterItems = bibleState.chapterList.map(
+      (String chapter) {
+        return DropdownMenuItem(
+          value: "$chapter",
+          child: Text("$chapter"),
+        );
+      },
+    ).toList();
+
+    return chapterItems;
   }
 }
