@@ -16,11 +16,13 @@ class BibleBloc with ChangeNotifier {
 
   Map linkedList = Map();
   Map secondLinkedList = Map();
-  var theme = 'brown';
-  var font = 'Montserrat';
-  var overlineValue = 8.0;
-  double slider = 0.0;
-  var fontSizeValue = 14.0;
+  var _theme = 'brown';
+  var _font = 'Montserrat';
+  var _overline = 8.0;
+  double _slider = 0.0;
+  var _fontSize = 14.0;
+  var _textView = "\n";
+  var _viewSlider = true;
 
   BibleBloc() {
     bookValue = "10";
@@ -30,39 +32,39 @@ class BibleBloc with ChangeNotifier {
     getValueSP();
   }
 
-  Future addFontSizetoSP() async {
+  Future addFontSizetoSP(newFontSize) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setDouble('fontSize', fontSizeValue);
+    prefs.setDouble('fontSize', newFontSize);
   }
 
-  Future addFonttoSP() async {
+  Future addFonttoSP(newFont) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString('font', font);
+    prefs.setString('font', newFont);
   }
 
-  Future addThemetoSP() async {
+  Future addThemetoSP(newTheme) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString('theme', theme);
+    prefs.setString('theme', newTheme);
   }
 
-  Future addTextViewtoSP() async {
+  Future addTextViewtoSP(newView) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setBool('textBoxMarker', textBoxMarker);
+    prefs.setBool('textBoxMarker', newView);
   }
 
   Future getValueSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.containsKey('fontSize') == true) {
-      fontSizeValue = prefs.getDouble('fontSize');
-      slider = fontSizeValue - 14;
+      _fontSize = prefs.getDouble('fontSize');
+      _slider = _fontSize - 14;
     }
     if (prefs.containsKey('textBoxMarker') == true) {
-      textBoxMarker = prefs.getBool('textBoxMarker');
+      viewSlider = prefs.getBool('textBoxMarker');
     }
     if (prefs.containsKey('font') == true) {
       font = prefs.getString('font');
@@ -72,39 +74,63 @@ class BibleBloc with ChangeNotifier {
     }
   }
 
-  void changeTheme(newTheme) {
-    theme = newTheme;
+  set theme(newTheme) {
+    _theme = newTheme;
 
-    addThemetoSP();
-
-    notifyListeners();
-  }
-
-  void changeFont(newFont) {
-    font = newFont;
-
-    addFonttoSP();
+    addThemetoSP(_theme);
 
     notifyListeners();
   }
 
-  void changeSlider(double newSlider) {
-    slider = newSlider;
-    setFontSize();
+  set font(newFont) {
+    _font = newFont;
+
+    addFonttoSP(_font);
+
     notifyListeners();
   }
 
-  void setFontSize() {
-    fontSizeValue = slider + 14.0;
-
-    addFontSizetoSP();
+  set slider(newSlider) {
+    _slider = newSlider;
+    fontSize = _slider + 14.0;
+    notifyListeners();
   }
 
-  String get fontFamily => font;
-  double get sliderValue => slider;
-  double get fontSize => fontSizeValue;
-  double get overline => overlineValue;
-  String get currentTheme => theme;
+  set fontSize(newFontSize) {
+    _fontSize = newFontSize;
+
+    addFontSizetoSP(_fontSize);
+
+    notifyListeners();
+  }
+
+  set viewSlider(newSlider) {
+    _viewSlider = newSlider;
+
+    if (newSlider == true) {
+      _textView = "\n";
+    } else {
+      _textView = "";
+    }
+
+    addTextViewtoSP(_viewSlider);
+
+    notifyListeners();
+  }
+
+  set textView(newView) {
+    _textView = newView;
+
+    notifyListeners();
+  }
+
+  bool get viewSlider => _viewSlider;
+  String get textView => _textView;
+  String get font => _font;
+  double get slider => _slider;
+  double get fontSize => _fontSize;
+  double get overline => _overline;
+  String get theme => _theme;
 
   getBookValue() => bookValue;
   getChapterValue() => chapterValue;
@@ -251,25 +277,6 @@ class BibleBloc with ChangeNotifier {
     bookQuery = query;
     return resultsList;
   }
-
-  bool textBoxMarker = true;
-  var textView = "\n";
-
-  changeView(bool value) {
-    if (textBoxMarker == true) {
-      textBoxMarker = false;
-      textView = "";
-    } else {
-      textBoxMarker = true;
-      textView = "\n";
-    }
-
-    addTextViewtoSP();
-
-    notifyListeners();
-  }
-
-  getTextBoxMarker() => textBoxMarker;
 
   swipeResults(start, update, smallSwipe, longSwipe) {
     if ((start - update) > smallSwipe && (start - update) < longSwipe) {

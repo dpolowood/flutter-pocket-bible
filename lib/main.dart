@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   }
 
   ThemeData getCustomTheme(bibleState) {
-    var theme = bibleState.currentTheme;
+    var theme = bibleState.theme;
     switch (theme) {
       case 'softGreen':
         return softGreen(bibleState);
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           display1: TextStyle(fontSize: bibleState.fontSize),
           display4: TextStyle(backgroundColor: Colors.deepPurple.shade400, fontSize: bibleState.fontSize),
         ),
-        fontFamily: bibleState.fontFamily,
+        fontFamily: bibleState.font,
         accentColor: Colors.deepPurple,
         textSelectionColor: Colors.deepPurple.shade800,
         textSelectionHandleColor: Colors.deepPurple.shade400,
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
           display4: TextStyle(backgroundColor: Colors.green.shade400, fontSize: bibleState.fontSize),
         ),
         brightness: Brightness.light,
-        fontFamily: bibleState.fontFamily,
+        fontFamily: bibleState.font,
         textSelectionHandleColor: Colors.green.shade400,
         textSelectionColor: Colors.green.shade100,
       );
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.brown.shade600,
         accentColor: Colors.brown.shade900,
         canvasColor: Colors.white,
-        fontFamily: bibleState.fontFamily,
+        fontFamily: bibleState.font,
         textSelectionColor: Colors.brown.shade100,
         textSelectionHandleColor: Colors.brown.shade400,
       );
@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
           button: TextStyle(color: Colors.black),
           display4: TextStyle(backgroundColor: Colors.indigo.shade200, fontSize: bibleState.fontSize),
         ),
-        fontFamily: bibleState.fontFamily,
+        fontFamily: bibleState.font,
         textSelectionHandleColor: Colors.indigo.shade400,
         textSelectionColor: Colors.indigo.shade200,
       );

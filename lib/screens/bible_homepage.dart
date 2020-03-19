@@ -18,9 +18,11 @@ class BibleHomePage extends StatelessWidget {
     var startPosition;
     var updatePosition;
 
+    // TODO: navigate to original page to activate SliverToolbar
+
     return Scaffold(
       body: CustomScrollView(
-        controller: bibleState.getScrollController(),
+        controller: bibleState.myScrollController,
         slivers: <Widget>[
           SliverAppBar(
             pinned: false,

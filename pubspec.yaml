@@ -22,7 +22,7 @@ dependencies:
   provider: ^3.0.0+1
   sqflite: ^1.1.6
   path: ^1.1.2
-  shared_preferences: ^0.5.3+4
+  shared_preferences: ^0.5.6+3
   cupertino_icons: ^0.1.2
   webview_flutter: ^0.3.3
   package_info: ^0.4.0+9

@@ -33,10 +33,9 @@ class _SettingsPageState extends State<SettingsPage> {
             activeColor: Theme.of(context).accentColor,
             title: Text("Text View"),
             subtitle: Text("Switch between views"),
-            value: bibleState.getTextBoxMarker(),
-            onChanged: (bool _value) {
-              bibleState.changeView(_value);
-              setState(() {});
+            value: bibleState.viewSlider,
+            onChanged: (bool newView) {
+              bibleState.viewSlider = newView;
             },
           ),
           Divider(
@@ -50,11 +49,11 @@ class _SettingsPageState extends State<SettingsPage> {
             activeColor: Theme.of(context).accentColor,
             min: 0.0,
             max: 10.0,
-            label: "${bibleState.sliderValue.toInt() + 14}",
+            label: "${bibleState.slider.toInt() + 14}",
             divisions: 10,
-            value: bibleState.sliderValue,
+            value: bibleState.slider,
             onChanged: (double newSlider) {
-              bibleState.changeSlider(newSlider);
+              bibleState.slider = newSlider;
             },
           ),
           Divider(),
@@ -62,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text("Font"),
             subtitle: Text("Change font to your preference"),
             trailing: DropdownButton(
-              value: bibleState.fontFamily,
+              value: bibleState.font,
               items: [
                 DropdownMenuItem(
                   value: 'Montserrat',
@@ -77,8 +76,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Text('Roboto'),
                 )
               ],
-              onChanged: (newFont) {
-                bibleState.changeFont(newFont);
+              onChanged: (String newFont) {
+                bibleState.font = newFont;
               },
             ),
           ),
@@ -87,7 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text("Theme"),
             subtitle: Text("Change theme"),
             trailing: DropdownButton(
-              value: bibleState.currentTheme,
+              value: bibleState.theme,
               items: [
                 DropdownMenuItem(
                   value: 'softGreen',
@@ -106,8 +105,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Text('Dark'),
                 ),
               ],
-              onChanged: (newValue) {
-                bibleState.changeTheme(newValue);
+              onChanged: (String newTheme) {
+                bibleState.theme = newTheme;
               },
             ),
           ),
