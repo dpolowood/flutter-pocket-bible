@@ -12,7 +12,9 @@ class BibleBloc with ChangeNotifier {
   ScrollController myScrollController = ScrollController();
   List<Verses> versesItems = List<Verses>();
   List<Books> bookList = List<Books>();
+  List<String> chapterList = List<String>();
   String databaseNameState;
+  String bookQuery;
 
   Map linkedList = Map();
   Map secondLinkedList = Map();
@@ -245,7 +247,6 @@ class BibleBloc with ChangeNotifier {
   get linkedL => linkedList;
   get secondLL => secondLinkedList;
 
-  List<String> chapterList = List<String>();
 
   Future updateChapterView(int bookNumber, int checkValue) async {
     chapterList = await _databaseHelper.getChapterList(bookNumber);
@@ -269,8 +270,6 @@ class BibleBloc with ChangeNotifier {
       versesItems.add(textoList[ii]);
     }
   }
-
-  var bookQuery;
 
   Future<List<Verses>> updateResults(String query) async {
     final resultsList = await _databaseHelper.getResults(query);

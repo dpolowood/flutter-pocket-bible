@@ -65,15 +65,24 @@ class _SettingsPageState extends State<SettingsPage> {
               items: [
                 DropdownMenuItem(
                   value: 'Montserrat',
-                  child: Text('Montserrat'),
+                  child: Text(
+                    'Montserrat',
+                    style: TextStyle(fontFamily: 'Montserrat'),
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'OpenSans',
-                  child: Text('OpenSans'),
+                  child: Text(
+                    'OpenSans',
+                    style: TextStyle(fontFamily: 'OpenSans'),
+                  ),
                 ),
                 DropdownMenuItem(
                   value: 'Roboto',
-                  child: Text('Roboto'),
+                  child: Text(
+                    'Roboto',
+                    style: TextStyle(fontFamily: 'Roboto'),
+                  ),
                 )
               ],
               onChanged: (String newFont) {
@@ -108,6 +117,108 @@ class _SettingsPageState extends State<SettingsPage> {
               onChanged: (String newTheme) {
                 bibleState.theme = newTheme;
               },
+            ),
+          ),
+          Card(
+            color: Theme.of(context).canvasColor,
+            child: ButtonBar(
+              children: <Widget>[
+                Container(
+                  height: 90.0,
+                  width: 90.0,
+                  child: RaisedButton(
+                    onPressed: () {
+                      bibleState.theme = 'softGreen';
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.green[200], Colors.white],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 90.0,
+                  width: 90.0,
+                  child: RaisedButton(
+                    onPressed: () {
+                      bibleState.theme = 'brown';
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.brown.shade600, Colors.white],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 90.0,
+                  width: 90.0,
+                  child: RaisedButton(
+                    onPressed: () {
+                      bibleState.theme = 'genie';
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.indigo.shade300,
+                            Colors.indigo.shade100
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 90.0,
+                  width: 90.0,
+                  child: RaisedButton(
+                    onPressed: () {
+                      bibleState.theme = 'dark';
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.black, Colors.grey],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
