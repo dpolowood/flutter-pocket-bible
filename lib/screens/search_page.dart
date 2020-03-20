@@ -42,7 +42,6 @@ class BibleSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    Map secondLinkedList = bibleState.secondLL;
 
     if (query != '') {
       return FutureBuilder<List<Verses>>(
@@ -66,7 +65,7 @@ class BibleSearch extends SearchDelegate {
                     child: ListTile(
                       dense: false,
                       leading: Text(
-                        "${secondLinkedList[results[index].verseBookNumber]} " +
+                        "${bibleState.bookNumberMap[results[index].verseBookNumber]} " +
                             "${results[index].chapter}",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),

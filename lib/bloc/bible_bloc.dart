@@ -25,10 +25,20 @@ class BibleBloc with ChangeNotifier {
   var _fontSize = 14.0;
   var _textView = "\n";
   var _viewSlider = true;
+  var _textoList;
+
+  List<Verses> get textoList => _textoList;
+
+  set textoList(newText) {
+    _textoList = newText;
+
+    notifyListeners();
+  }
 
   BibleBloc() {
     bookValue = "10";
     chapterValue = "1";
+    textoList = List<Verses>();
     databaseNameState = 'RV1960.db';
     this.onStart(databaseNameState);
     getValueSP();
@@ -63,7 +73,7 @@ class BibleBloc with ChangeNotifier {
 
     if (prefs.containsKey('fontSize') == true) {
       _fontSize = prefs.getDouble('fontSize');
-      _slider = _fontSize - 14;
+      slider = _fontSize - 14;
     }
     if (prefs.containsKey('textBoxMarker') == true) {
       viewSlider = prefs.getBool('textBoxMarker');
@@ -95,6 +105,7 @@ class BibleBloc with ChangeNotifier {
   set slider(newSlider) {
     _slider = newSlider;
     fontSize = _slider + 14.0;
+
     notifyListeners();
   }
 
@@ -136,27 +147,39 @@ class BibleBloc with ChangeNotifier {
 
   getBookValue() => bookValue;
   getChapterValue() => chapterValue;
-  getVerses() => versesItems;
   getScrollController() => myScrollController;
+
+  Map _bookNumberMap = Map();
+  Map _bookNameMap = Map();
 
   Future onStart(databaseName) async {
     await _databaseHelper.initializeDatabase(databaseName);
     bookList = await _databaseHelper.getBookList();
     await updateChapterView(int.parse(bookValue), int.parse(chapterValue));
 
+    bookList.forEach(
+      (Books book) {
+        _bookNumberMap[book.bookNumber] = book.bookName;
+        _bookNameMap[book.bookName] = book.bookNumber;
+      },
+    );
+
     notifyListeners();
   }
 
-  void onBookSelect(String value) async {
-    bookValue = value;
+  Map get bookNumberMap => _bookNumberMap;
+  Map get bookNameMap => _bookNameMap;
+
+  void onBookSelect(String newBook) async {
+    bookValue = newBook;
     chapterValue = "1";
     await updateChapterView(int.parse(bookValue), 1);
     notifyListeners();
     myScrollController.jumpTo(0);
   }
 
-  void onChapterSelect(String value) async {
-    chapterValue = value;
+  void onChapterSelect(String newChapter) async {
+    chapterValue = newChapter;
     await updateText(int.parse(chapterValue));
     notifyListeners();
     myScrollController.jumpTo(0);
@@ -247,7 +270,6 @@ class BibleBloc with ChangeNotifier {
   get linkedL => linkedList;
   get secondLL => secondLinkedList;
 
-
   Future updateChapterView(int bookNumber, int checkValue) async {
     chapterList = await _databaseHelper.getChapterList(bookNumber);
     notifyListeners();
@@ -263,12 +285,7 @@ class BibleBloc with ChangeNotifier {
   }
 
   Future updateText(int chapter) async {
-    final textoList = await _databaseHelper.getTextList(bookValue, chapter);
-    versesItems.length = 0;
-
-    for (var ii = 0; ii < textoList.length; ii++) {
-      versesItems.add(textoList[ii]);
-    }
+    textoList = await _databaseHelper.getTextList(bookValue, chapter);
   }
 
   Future<List<Verses>> updateResults(String query) async {

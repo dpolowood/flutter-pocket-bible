@@ -104,7 +104,7 @@ class BibleHomePage extends StatelessWidget {
         controller: bibleState.getScrollController(),
         child: SelectableText.rich(
           TextSpan(
-            children: bibleState.getVerses().map<InlineSpan>(
+            children: bibleState.textoList.map<InlineSpan>(
               (Verses verse) {
                 return TextSpan(
                   children: <TextSpan>[
