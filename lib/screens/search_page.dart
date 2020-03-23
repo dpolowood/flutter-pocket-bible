@@ -42,7 +42,6 @@ class BibleSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-
     if (query != '') {
       return FutureBuilder<List<Verses>>(
         future: bibleState.updateResults(query),

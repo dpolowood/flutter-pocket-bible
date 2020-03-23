@@ -16,8 +16,10 @@ class BibleBloc with ChangeNotifier {
   String databaseNameState;
   String bookQuery;
 
-  Map linkedList = Map();
-  Map secondLinkedList = Map();
+  Map _bookNumberMap = Map();
+  Map _bookNameMap = Map();
+  List _bookNumbers = List();
+
   var _theme = 'brown';
   var _font = 'Montserrat';
   var _overline = 8.0;
@@ -26,14 +28,6 @@ class BibleBloc with ChangeNotifier {
   var _textView = "\n";
   var _viewSlider = true;
   var _textoList;
-
-  List<Verses> get textoList => _textoList;
-
-  set textoList(newText) {
-    _textoList = newText;
-
-    notifyListeners();
-  }
 
   BibleBloc() {
     bookValue = "10";
@@ -84,6 +78,12 @@ class BibleBloc with ChangeNotifier {
     if (prefs.containsKey('theme') == true) {
       theme = prefs.getString('theme');
     }
+  }
+
+  set textoList(newText) {
+    _textoList = newText;
+
+    notifyListeners();
   }
 
   set theme(newTheme) {
@@ -144,13 +144,13 @@ class BibleBloc with ChangeNotifier {
   double get fontSize => _fontSize;
   double get overline => _overline;
   String get theme => _theme;
+  List<Verses> get textoList => _textoList;
+  Map get bookNumberMap => _bookNumberMap;
+  Map get bookNameMap => _bookNameMap;
 
   getBookValue() => bookValue;
   getChapterValue() => chapterValue;
   getScrollController() => myScrollController;
-
-  Map _bookNumberMap = Map();
-  Map _bookNameMap = Map();
 
   Future onStart(databaseName) async {
     await _databaseHelper.initializeDatabase(databaseName);
@@ -159,6 +159,7 @@ class BibleBloc with ChangeNotifier {
 
     bookList.forEach(
       (Books book) {
+        _bookNumbers.add("${book.bookNumber}");
         _bookNumberMap[book.bookNumber] = book.bookName;
         _bookNameMap[book.bookName] = book.bookNumber;
       },
@@ -166,9 +167,6 @@ class BibleBloc with ChangeNotifier {
 
     notifyListeners();
   }
-
-  Map get bookNumberMap => _bookNumberMap;
-  Map get bookNameMap => _bookNameMap;
 
   void onBookSelect(String newBook) async {
     bookValue = newBook;
@@ -186,16 +184,8 @@ class BibleBloc with ChangeNotifier {
   }
 
   void nextBook() async {
-    if (int.parse(bookValue) < 730) {
-      do {
-        bookValue = "${int.parse(bookValue) + 10}";
-      } while (bookValue == "170" ||
-          bookValue == "180" ||
-          bookValue == "200" ||
-          bookValue == "210" ||
-          bookValue == "270" ||
-          bookValue == "280" ||
-          bookValue == "320");
+    if (bookValue != _bookNumbers.last) {
+      bookValue = _bookNumbers[_bookNumbers.indexOf(bookValue) + 1];
       chapterValue = "1";
       await updateChapterView(int.parse(bookValue), 1);
       notifyListeners();
@@ -215,16 +205,8 @@ class BibleBloc with ChangeNotifier {
   }
 
   void previousBook() async {
-    if (int.parse(bookValue) > 10) {
-      do {
-        bookValue = "${int.parse(bookValue) - 10}";
-      } while (bookValue == "170" ||
-          bookValue == "180" ||
-          bookValue == "200" ||
-          bookValue == "210" ||
-          bookValue == "270" ||
-          bookValue == "280" ||
-          bookValue == "320");
+    if (bookValue != _bookNumbers.first) {
+      bookValue = _bookNumbers[_bookNumbers.indexOf(bookValue) - 1];
       chapterValue = "1";
       await updateChapterView(int.parse(bookValue), 1);
       notifyListeners();
@@ -238,16 +220,8 @@ class BibleBloc with ChangeNotifier {
       await updateText(int.parse(chapterValue));
       notifyListeners();
       myScrollController.jumpTo(0);
-    } else if (int.parse(bookValue) > 10) {
-      do {
-        bookValue = "${int.parse(bookValue) - 10}";
-      } while (bookValue == "170" ||
-          bookValue == "180" ||
-          bookValue == "200" ||
-          bookValue == "210" ||
-          bookValue == "270" ||
-          bookValue == "280" ||
-          bookValue == "320");
+    } else if (bookValue != _bookNumbers.first) {
+      bookValue = _bookNumbers[_bookNumbers.indexOf(bookValue) - 1];
       await updateChapterView(int.parse(bookValue), -1);
       notifyListeners();
       myScrollController.jumpTo(0);
@@ -261,14 +235,10 @@ class BibleBloc with ChangeNotifier {
     notifyListeners();
   }
 
-  void changeVersion(databaseName) async {
-    databaseNameState = databaseName;
-    await onStart(databaseName);
+  void changeVersion(newDatabaseName) async {
+    databaseNameState = newDatabaseName;
+    await onStart(newDatabaseName);
   }
-  // TODO: Make linked lists
-
-  get linkedL => linkedList;
-  get secondLL => secondLinkedList;
 
   Future updateChapterView(int bookNumber, int checkValue) async {
     chapterList = await _databaseHelper.getChapterList(bookNumber);
