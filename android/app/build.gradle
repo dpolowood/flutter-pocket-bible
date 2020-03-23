@@ -48,7 +48,7 @@ android {
         applicationId "com.dpolowood.TheSimpleBible"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 2009
+        versionCode 2010
         versionName "1.0.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
