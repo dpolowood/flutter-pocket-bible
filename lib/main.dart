@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
   ThemeData getCustomTheme(bibleState) {
     var theme = bibleState.theme;
     switch (theme) {
+      case 'softGreen':
+        return softGreen(bibleState);
       case 'soft green':
         return softGreen(bibleState);
       case 'brown':
