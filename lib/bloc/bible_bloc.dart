@@ -20,14 +20,13 @@ class BibleBloc with ChangeNotifier {
   Map _bookNameMap = Map();
   List _bookNumbers = List();
 
-  var _theme = 'brown';
-  var _font = 'Montserrat';
-  var _overline = 8.0;
+  String _theme = 'brown';
+  String _font = 'Montserrat';
+  double _overline = 8.0;
   double _slider = 0.0;
-  var _fontSize = 14.0;
-  var _textView = "\n";
-  var _viewSlider = true;
-  var _textoList;
+  String _textView = "\n";
+  bool _viewSlider = true;
+  List<Verses> _textoList;
 
   BibleBloc() {
     bookValue = "10";
@@ -66,8 +65,7 @@ class BibleBloc with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.containsKey('fontSize') == true) {
-      _fontSize = prefs.getDouble('fontSize');
-      slider = _fontSize - 14;
+      slider = prefs.getDouble('fontSize') - 14;
     }
     if (prefs.containsKey('textBoxMarker') == true) {
       viewSlider = prefs.getBool('textBoxMarker');
@@ -104,15 +102,8 @@ class BibleBloc with ChangeNotifier {
 
   set slider(newSlider) {
     _slider = newSlider;
-    fontSize = _slider + 14.0;
 
-    notifyListeners();
-  }
-
-  set fontSize(newFontSize) {
-    _fontSize = newFontSize;
-
-    addFontSizetoSP(_fontSize);
+    addFontSizetoSP(_slider + 14);
 
     notifyListeners();
   }
@@ -141,7 +132,7 @@ class BibleBloc with ChangeNotifier {
   String get textView => _textView;
   String get font => _font;
   double get slider => _slider;
-  double get fontSize => _fontSize;
+  double get fontSize => slider + 14;
   double get overline => _overline;
   String get theme => _theme;
   List<Verses> get textoList => _textoList;
@@ -172,14 +163,12 @@ class BibleBloc with ChangeNotifier {
     bookValue = newBook;
     chapterValue = "1";
     await updateChapterView(int.parse(bookValue), 1);
-    notifyListeners();
     myScrollController.jumpTo(0);
   }
 
   void onChapterSelect(String newChapter) async {
     chapterValue = newChapter;
     await updateText(int.parse(chapterValue));
-    notifyListeners();
     myScrollController.jumpTo(0);
   }
 
@@ -188,7 +177,6 @@ class BibleBloc with ChangeNotifier {
       bookValue = _bookNumbers[_bookNumbers.indexOf(bookValue) + 1];
       chapterValue = "1";
       await updateChapterView(int.parse(bookValue), 1);
-      notifyListeners();
       myScrollController.jumpTo(0);
     }
   }
@@ -198,7 +186,6 @@ class BibleBloc with ChangeNotifier {
       chapterValue = "${int.parse(chapterValue) + 1}";
       await updateText(int.parse(chapterValue));
       myScrollController.jumpTo(0);
-      notifyListeners();
     } else {
       nextBook();
     }
@@ -209,7 +196,6 @@ class BibleBloc with ChangeNotifier {
       bookValue = _bookNumbers[_bookNumbers.indexOf(bookValue) - 1];
       chapterValue = "1";
       await updateChapterView(int.parse(bookValue), 1);
-      notifyListeners();
       myScrollController.jumpTo(0);
     }
   }
@@ -218,12 +204,10 @@ class BibleBloc with ChangeNotifier {
     if (int.parse(chapterValue) > 1) {
       chapterValue = "${int.parse(chapterValue) - 1}";
       await updateText(int.parse(chapterValue));
-      notifyListeners();
       myScrollController.jumpTo(0);
     } else if (bookValue != _bookNumbers.first) {
       bookValue = _bookNumbers[_bookNumbers.indexOf(bookValue) - 1];
       await updateChapterView(int.parse(bookValue), -1);
-      notifyListeners();
       myScrollController.jumpTo(0);
     }
   }
@@ -232,7 +216,6 @@ class BibleBloc with ChangeNotifier {
     bookValue = bookNumber;
     chapterValue = chapterNumber;
     await updateChapterView(int.parse(bookNumber), int.parse(chapterNumber));
-    notifyListeners();
   }
 
   void changeVersion(newDatabaseName) async {
@@ -242,7 +225,6 @@ class BibleBloc with ChangeNotifier {
 
   Future updateChapterView(int bookNumber, int checkValue) async {
     chapterList = await _databaseHelper.getChapterList(bookNumber);
-    notifyListeners();
 
     if (checkValue == -1) {
       await updateText(chapterList.length);

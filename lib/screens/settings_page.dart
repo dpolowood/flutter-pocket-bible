@@ -94,30 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             title: Text("Theme"),
             subtitle: Text("Change theme"),
-            trailing: DropdownButton(
-              value: bibleState.theme,
-              items: [
-                DropdownMenuItem(
-                  value: 'softGreen',
-                  child: Text('Green'),
-                ),
-                DropdownMenuItem(
-                  value: 'brown',
-                  child: Text('Brown'),
-                ),
-                DropdownMenuItem(
-                  value: 'genie',
-                  child: Text('Genie'),
-                ),
-                DropdownMenuItem(
-                  value: 'dark',
-                  child: Text('Dark'),
-                ),
-              ],
-              onChanged: (String newTheme) {
-                bibleState.theme = newTheme;
-              },
-            ),
+            trailing: Text(bibleState.theme),
           ),
           Card(
             color: Theme.of(context).canvasColor,
@@ -128,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 90.0,
                   child: RaisedButton(
                     onPressed: () {
-                      bibleState.theme = 'softGreen';
+                      bibleState.theme = 'soft green';
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),

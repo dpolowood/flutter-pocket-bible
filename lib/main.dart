@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   ThemeData getCustomTheme(bibleState) {
     var theme = bibleState.theme;
     switch (theme) {
-      case 'softGreen':
+      case 'soft green':
         return softGreen(bibleState);
       case 'brown':
         return brown(bibleState);
@@ -86,6 +86,7 @@ class MyApp extends StatelessWidget {
   ThemeData genie(bibleState) => ThemeData(
         primaryColor: Colors.indigo.shade300,
         canvasColor: Colors.indigo.shade100,
+        accentColor: Colors.indigo[900],
         textTheme: TextTheme(
           display1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
