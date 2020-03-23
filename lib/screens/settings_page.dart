@@ -2,21 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:pocketbible/bloc/bible_bloc.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   final BibleBloc bibleState;
 
   SettingsPage(this.bibleState);
 
   @override
-  _SettingsPageState createState() => _SettingsPageState(bibleState);
-}
-
-class _SettingsPageState extends State<SettingsPage> {
-  BibleBloc bibleState;
-  _SettingsPageState(this.bibleState);
-  var value = true;
-  @override
   Widget build(BuildContext context) {
+    var buttonSize = MediaQuery.of(context).size.width / 5;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
@@ -32,14 +26,14 @@ class _SettingsPageState extends State<SettingsPage> {
           SwitchListTile(
             activeColor: Theme.of(context).accentColor,
             title: Text("Text View"),
-            subtitle: Text("Switch between views"),
+            subtitle: Text("Bulleted verses"),
             value: bibleState.viewSlider,
             onChanged: (bool newView) {
               bibleState.viewSlider = newView;
             },
           ),
           Divider(
-            height: 16,
+            height: 10,
           ),
           ListTile(
             title: Text("Font Size"),
@@ -99,10 +93,11 @@ class _SettingsPageState extends State<SettingsPage> {
           Card(
             color: Theme.of(context).canvasColor,
             child: ButtonBar(
+              alignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: 90.0,
-                  width: 90.0,
+                  height: buttonSize,
+                  width: buttonSize,
                   child: RaisedButton(
                     onPressed: () {
                       bibleState.theme = 'soft green';
@@ -124,8 +119,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 Container(
-                  height: 90.0,
-                  width: 90.0,
+                  height: buttonSize,
+                  width: buttonSize,
                   child: RaisedButton(
                     onPressed: () {
                       bibleState.theme = 'brown';
@@ -147,8 +142,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 Container(
-                  height: 90.0,
-                  width: 90.0,
+                  height: buttonSize,
+                  width: buttonSize,
                   child: RaisedButton(
                     onPressed: () {
                       bibleState.theme = 'genie';
@@ -173,8 +168,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 Container(
-                  height: 90.0,
-                  width: 90.0,
+                  height: buttonSize,
+                  width: buttonSize,
                   child: RaisedButton(
                     onPressed: () {
                       bibleState.theme = 'dark';

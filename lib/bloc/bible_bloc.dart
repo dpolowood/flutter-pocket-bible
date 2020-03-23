@@ -111,10 +111,10 @@ class BibleBloc with ChangeNotifier {
   set viewSlider(newSlider) {
     _viewSlider = newSlider;
 
-    if (newSlider == true) {
-      _textView = "\n";
+    if (_viewSlider == true) {
+      textView = "\n";
     } else {
-      _textView = "";
+      textView = "";
     }
 
     addTextViewtoSP(_viewSlider);
@@ -155,8 +155,6 @@ class BibleBloc with ChangeNotifier {
         _bookNameMap[book.bookName] = book.bookNumber;
       },
     );
-
-    notifyListeners();
   }
 
   void onBookSelect(String newBook) async {
@@ -168,7 +166,7 @@ class BibleBloc with ChangeNotifier {
 
   void onChapterSelect(String newChapter) async {
     chapterValue = newChapter;
-    await updateText(int.parse(chapterValue));
+    textoList = await updateText(int.parse(chapterValue));
     myScrollController.jumpTo(0);
   }
 
@@ -184,7 +182,7 @@ class BibleBloc with ChangeNotifier {
   void nextChapter() async {
     if (int.parse(chapterValue) < chapterList.length) {
       chapterValue = "${int.parse(chapterValue) + 1}";
-      await updateText(int.parse(chapterValue));
+      textoList = await updateText(int.parse(chapterValue));
       myScrollController.jumpTo(0);
     } else {
       nextBook();
@@ -203,7 +201,7 @@ class BibleBloc with ChangeNotifier {
   void previousChapter() async {
     if (int.parse(chapterValue) > 1) {
       chapterValue = "${int.parse(chapterValue) - 1}";
-      await updateText(int.parse(chapterValue));
+      textoList = await updateText(int.parse(chapterValue));
       myScrollController.jumpTo(0);
     } else if (bookValue != _bookNumbers.first) {
       bookValue = _bookNumbers[_bookNumbers.indexOf(bookValue) - 1];
@@ -227,17 +225,15 @@ class BibleBloc with ChangeNotifier {
     chapterList = await _databaseHelper.getChapterList(bookNumber);
 
     if (checkValue == -1) {
-      await updateText(chapterList.length);
+      textoList = await updateText(chapterList.length);
       chapterValue = "${chapterList.length}";
     } else {
-      await updateText(
-        int.parse(chapterValue),
-      );
+      textoList = await updateText(int.parse(chapterValue));
     }
   }
 
   Future updateText(int chapter) async {
-    textoList = await _databaseHelper.getTextList(bookValue, chapter);
+    return await _databaseHelper.getTextList(bookValue, chapter);
   }
 
   Future<List<Verses>> updateResults(String query) async {

@@ -62,7 +62,7 @@ class BibleSearch extends SearchDelegate {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     child: ListTile(
-                      dense: false,
+                      dense: true,
                       leading: Text(
                         "${bibleState.bookNumberMap[results[index].verseBookNumber]} " +
                             "${results[index].chapter}",

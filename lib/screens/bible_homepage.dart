@@ -41,17 +41,15 @@ class BibleHomePage extends StatelessWidget {
             actions: <Widget>[
               Container(
                 child: bookDropDown(bibleState, context),
-                padding: const EdgeInsets.only(top: 16.0, right: 12.0),
+                padding: const EdgeInsets.only(top: 16.0, right: 2.0),
               ),
               Container(
                 child: chapterDropDown(bibleState, context),
-                padding: const EdgeInsets.only(top: 16.0, right: 2.0),
+                padding: const EdgeInsets.only(top: 16.0, right: 1.0),
               ),
               IconButton(
-                icon: Icon(
-                  Icons.language,
-                  color: Theme.of(context).iconTheme.color,
-                ),
+                icon: Icon(Icons.language,
+                    color: Theme.of(context).iconTheme.color),
                 tooltip: 'Change Version',
                 onPressed: () {
                   if (bibleState.databaseNameState == 'RV1960.db') {
@@ -62,10 +60,8 @@ class BibleHomePage extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: Icon(
-                  Icons.settings,
-                  color: Theme.of(context).iconTheme.color,
-                ),
+                icon: Icon(Icons.settings,
+                    color: Theme.of(context).iconTheme.color),
                 tooltip: "Settings page",
                 onPressed: () {
                   Navigator.push(
