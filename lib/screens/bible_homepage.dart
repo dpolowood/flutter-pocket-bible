@@ -5,6 +5,8 @@ import 'package:pocketbible/models/bible_tables.dart';
 import 'package:pocketbible/bloc/bible_bloc.dart';
 import 'package:pocketbible/screens/search_page.dart';
 
+// Homepage of the app
+
 class BibleHomePage extends StatelessWidget {
   final BibleBloc bibleState;
 
