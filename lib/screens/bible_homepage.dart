@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:pocketbible/models/bible_tables.dart';
 import 'package:pocketbible/bloc/bible_bloc.dart';
-import 'package:pocketbible/screens/settings_page.dart';
 import 'package:pocketbible/screens/search_page.dart';
 
 class BibleHomePage extends StatelessWidget {
@@ -17,8 +16,6 @@ class BibleHomePage extends StatelessWidget {
     double longSwipe = MediaQuery.of(context).size.width * .60;
     var startPosition;
     var updatePosition;
-
-    // TODO: navigate to original page to activate SliverToolbar
 
     return Scaffold(
       body: CustomScrollView(
@@ -64,30 +61,26 @@ class BibleHomePage extends StatelessWidget {
                     color: Theme.of(context).iconTheme.color),
                 tooltip: "Settings page",
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SettingsPage(bibleState),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/settings');
                 },
               ),
             ],
           ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: GestureDetector(
-              onHorizontalDragStart: (DragStartDetails start) {
-                startPosition = start.globalPosition.dx;
-              },
-              onHorizontalDragUpdate: (DragUpdateDetails update) {
-                updatePosition = update.globalPosition.dx;
-              },
-              onHorizontalDragEnd: (DragEndDetails end) {
-                bibleState.swipeResults(
-                    startPosition, updatePosition, smallSwipe, longSwipe);
-              },
-              child: textBox(bibleState, context),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => GestureDetector(
+                onHorizontalDragStart: (DragStartDetails start) {
+                  startPosition = start.globalPosition.dx;
+                },
+                onHorizontalDragUpdate: (DragUpdateDetails update) {
+                  updatePosition = update.globalPosition.dx;
+                },
+                onHorizontalDragEnd: (DragEndDetails end) {
+                  bibleState.swipeResults(
+                      startPosition, updatePosition, smallSwipe, longSwipe);
+                },
+                child: textBox(bibleState, context),
+              ),
             ),
           ),
         ],

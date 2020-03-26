@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:pocketbible/screens/settings_page.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/bible_bloc.dart';
@@ -13,6 +14,15 @@ void main() {
   );
 }
 
+class LoadingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,7 +30,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: getCustomTheme(bibleState),
-      home: BibleHomePage(bibleState),
+      initialRoute: '/home',
+      routes: {
+        '/': (context) => LoadingPage(),
+        '/home': (context) => BibleHomePage(bibleState),
+        '/settings': (context) => SettingsPage(bibleState),
+      }
     );
   }
 

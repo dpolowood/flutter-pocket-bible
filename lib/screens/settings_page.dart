@@ -43,7 +43,7 @@ class SettingsPage extends StatelessWidget {
             activeColor: Theme.of(context).accentColor,
             min: 0.0,
             max: 10.0,
-            label: "${bibleState.slider.toInt() + 14}",
+            label: "${bibleState.fontSize}",
             divisions: 10,
             value: bibleState.slider,
             onChanged: (double newSlider) {

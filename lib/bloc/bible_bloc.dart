@@ -26,13 +26,13 @@ class BibleBloc with ChangeNotifier {
   double _slider = 0.0;
   String _textView = "\n";
   bool _viewSlider = true;
-  List<Verses> _textoList;
+  List<Verses> _textoList = List<Verses>();
 
   BibleBloc() {
     bookValue = "10";
     chapterValue = "1";
-    textoList = List<Verses>();
     databaseNameState = 'RV1960.db';
+    _textoList =  List<Verses>();
     this.onStart(databaseNameState);
     getValueSP();
   }
