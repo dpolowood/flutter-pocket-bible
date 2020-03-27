@@ -83,6 +83,7 @@ class BibleHomePage extends StatelessWidget {
                 },
                 child: textBox(bibleState, context),
               ),
+              childCount: 1,
             ),
           ),
         ],
