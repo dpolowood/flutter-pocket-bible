@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
       theme: getCustomTheme(bibleState),
       initialRoute: '/home',
       routes: {
-        '/': (context) => LoadingPage(),
         '/home': (context) => BibleHomePage(bibleState),
         '/settings': (context) => SettingsPage(bibleState),
       }
