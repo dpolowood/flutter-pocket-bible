@@ -51,7 +51,7 @@ class BibleHomePage extends StatelessWidget {
                     color: Theme.of(context).iconTheme.color),
                 tooltip: 'Change Version',
                 onPressed: () {
-                  if (bibleState.databaseNameState == 'RV1960.db') {
+                  if (bibleState.databaseName == 'RV1960.db') {
                     bibleState.changeVersion('NEWESV.db');
                   } else {
                     bibleState.changeVersion('RV1960.db');

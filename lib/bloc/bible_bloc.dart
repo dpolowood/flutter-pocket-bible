@@ -13,13 +13,13 @@ class BibleBloc with ChangeNotifier {
   List<Verses> versesItems = List<Verses>();
   List<Books> bookList = List<Books>();
   List<String> chapterList = List<String>();
-  String databaseNameState;
   String bookQuery;
 
   Map _bookNumberMap = Map();
   Map _bookNameMap = Map();
   List _bookNumbers = List();
 
+  String databaseName = 'RV1960.db';
   String _theme = 'brown';
   String _font = 'Montserrat';
   double _overline = 8.0;
@@ -31,10 +31,10 @@ class BibleBloc with ChangeNotifier {
   BibleBloc() {
     bookValue = "10";
     chapterValue = "1";
-    databaseNameState = 'RV1960.db';
     _textoList =  List<Verses>();
-    this.onStart(databaseNameState);
     getValueSP();
+    // this.onStart(databaseName);
+    print(databaseName);
   }
 
   Future addFontSizetoSP(newFontSize) async {
@@ -61,6 +61,12 @@ class BibleBloc with ChangeNotifier {
     prefs.setBool('textBoxMarker', newView);
   }
 
+  Future addLanguagetoSP(newLanguage) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('language', newLanguage);
+  }
+
   Future getValueSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -75,6 +81,12 @@ class BibleBloc with ChangeNotifier {
     }
     if (prefs.containsKey('theme') == true) {
       theme = prefs.getString('theme');
+    }
+    if(prefs.containsKey('language') == true) {
+      databaseName = prefs.getString('language');
+      onStart(databaseName);
+    } else {
+      onStart(databaseName);
     }
   }
 
@@ -217,8 +229,11 @@ class BibleBloc with ChangeNotifier {
   }
 
   void changeVersion(newDatabaseName) async {
-    databaseNameState = newDatabaseName;
-    await onStart(newDatabaseName);
+    databaseName = newDatabaseName;
+
+    addLanguagetoSP(databaseName);
+
+    await onStart(databaseName);
   }
 
   Future updateChapterView(int bookNumber, int checkValue) async {
