@@ -28,14 +28,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final bibleState = Provider.of<BibleBloc>(context);
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: getCustomTheme(bibleState),
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => BibleHomePage(bibleState),
-        '/settings': (context) => SettingsPage(bibleState),
-      }
-    );
+        debugShowCheckedModeBanner: false,
+        theme: getCustomTheme(bibleState),
+        initialRoute: '/home',
+        routes: {
+          '/home': (context) => BibleHomePage(bibleState),
+          '/settings': (context) => SettingsPage(bibleState),
+        });
   }
 
   ThemeData getCustomTheme(bibleState) {
@@ -59,8 +58,8 @@ class MyApp extends StatelessWidget {
   ThemeData dark(bibleState) => ThemeData(
         brightness: Brightness.dark,
         textTheme: TextTheme(
-          display1: TextStyle(fontSize: bibleState.fontSize),
-          display4: TextStyle(backgroundColor: Colors.deepPurple.shade400, fontSize: bibleState.fontSize),
+          headline1: TextStyle(fontSize: bibleState.fontSize),
+          headline4: TextStyle(fontSize: bibleState.fontSize),
         ),
         fontFamily: bibleState.font,
         accentColor: Colors.deepPurple,
@@ -72,10 +71,10 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.green.shade200,
         accentColor: Colors.lightGreen.shade900,
         textTheme: TextTheme(
-          display1:
+          headline1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
-          display4: TextStyle(backgroundColor: Colors.green.shade400, fontSize: bibleState.fontSize),
+          headline4: TextStyle(fontSize: bibleState.fontSize),
         ),
         brightness: Brightness.light,
         fontFamily: bibleState.font,
@@ -86,10 +85,10 @@ class MyApp extends StatelessWidget {
   ThemeData brown(bibleState) => ThemeData(
         iconTheme: IconThemeData(color: Colors.brown.shade200),
         textTheme: TextTheme(
-          display1:
+          headline1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
-          display4: TextStyle(backgroundColor: Colors.brown.shade100, fontSize: bibleState.fontSize),
+          headline4: TextStyle(fontSize: bibleState.fontSize),
         ),
         primaryColor: Colors.brown.shade600,
         accentColor: Colors.brown.shade900,
@@ -104,10 +103,10 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.indigo.shade100,
         accentColor: Colors.indigo[900],
         textTheme: TextTheme(
-          display1:
+          headline1:
               TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
           button: TextStyle(color: Colors.black),
-          display4: TextStyle(backgroundColor: Colors.indigo.shade200, fontSize: bibleState.fontSize),
+          headline4: TextStyle(fontSize: bibleState.fontSize),
         ),
         fontFamily: bibleState.font,
         textSelectionHandleColor: Colors.indigo.shade400,

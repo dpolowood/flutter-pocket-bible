@@ -133,13 +133,13 @@ class BibleHomePage extends StatelessWidget {
         newList.add(
           TextSpan(
             text: verseString1,
-            style: Theme.of(context).textTheme.display1,
+            style: Theme.of(context).textTheme.headline1,
           ),
         );
         newList.add(
           TextSpan(
             text: verseQuery,
-            style: Theme.of(context).textTheme.display4,
+            style: Theme.of(context).textTheme.headline4,
           ),
         );
       }
@@ -148,7 +148,7 @@ class BibleHomePage extends StatelessWidget {
     newList.add(
       TextSpan(
         text: verseString + bibleState.textView,
-        style: Theme.of(context).textTheme.display1,
+        style: Theme.of(context).textTheme.headline4,
       ),
     );
 
