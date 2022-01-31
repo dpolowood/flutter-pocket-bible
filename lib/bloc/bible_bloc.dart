@@ -258,14 +258,15 @@ class BibleBloc with ChangeNotifier {
   }
 
   swipeResults(start, update, smallSwipe, longSwipe) {
-    if ((start - update) > smallSwipe && (start - update) < longSwipe) {
+    int swipe = start-update;
+    if (swipe > smallSwipe && swipe < longSwipe) {
       nextChapter();
-    } else if ((start - update) > longSwipe) {
+    } else if (swipe > longSwipe) {
       nextBook();
-    } else if ((start - update) < -smallSwipe &&
-        (start - update) > -longSwipe) {
+    } else if (swipe < -smallSwipe &&
+        swipe > -longSwipe) {
       previousChapter();
-    } else if ((start - update) < -longSwipe) {
+    } else if (swipe < -longSwipe) {
       previousBook();
     }
   }
