@@ -1,16 +1,41 @@
-# pocketbible
+# Pocket Bible
 
-A new Flutter project.
+Bible mobile application with gestures, themes, and search
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Prerequisites
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For local build:
+- Latest version of Flutter
+- An Android or iPhone emulator
+
+For regular usage:
+- Google Play Store
+- Android phone
+
+```
+Give examples
+```
+
+### How to use
+
+A step by step guide on how to use the app's features
+
+End with a few screenshots
+
+## Built with
+
+* [Flutter](https://flutter.dev) - Google Framework used
+* [SQLite](https://www.sqlite.org/index.html) - Database engine used
+* MVC - Design Pattern used
+
+## Authors
+
+* **Daniel Polo-Wood**
+
+## Acknowledgments
+
+* Inspiration was that my Dad wanted a more modern Bible app
