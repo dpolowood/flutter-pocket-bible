@@ -1,8 +1,8 @@
 class Books {
-  int bookNumber;
-  String bookName;
+  late int bookNumber;
+  late String bookName;
 
-  Books({this.bookNumber, this.bookName});
+  Books({required this.bookNumber, required this.bookName});
 
   Books.fromMapObject(Map<String, dynamic> map) {
     this.bookNumber = map['book_number'];
@@ -11,17 +11,17 @@ class Books {
 }
 
 class Verses {
-  int verseBookNumber;
-  int chapter;
-  int verseNumber;
-  String text;
+  late int verseBookNumber;
+  late int chapter;
+  late int verseNumber;
+  late String text;
 
-  Verses({this.verseBookNumber, this.chapter, this.text, this.verseNumber});
+  Verses({required this.verseBookNumber, required this.chapter, required this.text, required this.verseNumber});
 
   Verses.fromMapObject(Map<String, dynamic> map) {
-    this.verseBookNumber = map['book_number'];
-    this.chapter = map['chapter'];
-    this.verseNumber = map['verse'];
-    this.text = map['text'];
+    this.verseBookNumber = map['book_number'] ?? 0;
+    this.chapter = map['chapter'] ?? 0;
+    this.verseNumber = map['verse'] ?? 0;
+    this.text = map['text'] ?? '';
   }
 }

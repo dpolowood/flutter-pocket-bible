@@ -58,58 +58,80 @@ class MyApp extends StatelessWidget {
   ThemeData dark(bibleState) => ThemeData(
         brightness: Brightness.dark,
         textTheme: TextTheme(
-          headline1: TextStyle(fontSize: bibleState.fontSize),
-          headline4: TextStyle(fontSize: bibleState.fontSize),
+          headlineMedium: TextStyle(fontSize: bibleState.fontSize,backgroundColor: Colors.white,color: Colors.black),
+          headlineSmall: TextStyle(fontSize: bibleState.fontSize),
         ),
+        // appBarTheme: AppBarTheme(
+        //   backgroundColor: Colors.green.shade900,
+        // ),
         fontFamily: bibleState.font,
-        accentColor: Colors.deepPurple,
-        textSelectionColor: Colors.deepPurple.shade800,
-        textSelectionHandleColor: Colors.deepPurple.shade400,
+        textSelectionTheme: TextSelectionThemeData(selectionColor:  Colors.deepPurple.shade800, selectionHandleColor: Colors.deepPurple.shade400),
       );
 
   ThemeData softGreen(bibleState) => ThemeData(
-        primaryColor: Colors.green.shade200,
-        accentColor: Colors.lightGreen.shade900,
-        textTheme: TextTheme(
-          headline1:
-              TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
-          button: TextStyle(color: Colors.black),
-          headline4: TextStyle(fontSize: bibleState.fontSize),
+
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: 
+          //Colors.red, 
+          Colors.green,
         ),
-        brightness: Brightness.light,
+        textTheme: TextTheme(
+          headlineMedium:
+              TextStyle(color: Colors.white, backgroundColor: Colors.green.shade900, fontSize: bibleState.fontSize),
+          // button: TextStyle(color: Colors.black),
+          headlineSmall: TextStyle(fontSize: bibleState.fontSize),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.green.shade200,
+        ),
+        // brightness: Brightness.light,
         fontFamily: bibleState.font,
-        textSelectionHandleColor: Colors.green.shade400,
-        textSelectionColor: Colors.green.shade100,
+        textSelectionTheme: TextSelectionThemeData( selectionHandleColor: Colors.green.shade400, selectionColor: Colors.green.shade100),
       );
 
   ThemeData brown(bibleState) => ThemeData(
-        iconTheme: IconThemeData(color: Colors.brown.shade200),
+        iconTheme: IconThemeData(color: Colors.brown.shade100),
         textTheme: TextTheme(
-          headline1:
-              TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
-          button: TextStyle(color: Colors.black),
-          headline4: TextStyle(fontSize: bibleState.fontSize),
+          headlineMedium:
+              TextStyle(color: Colors.white, backgroundColor: Colors.brown.shade900, fontSize: bibleState.fontSize),
+          // button: TextStyle(color: Colors.black),
+          headlineSmall: TextStyle(fontSize: bibleState.fontSize),
         ),
-        primaryColor: Colors.brown.shade600,
-        accentColor: Colors.brown.shade900,
-        canvasColor: Colors.white,
+        // primaryColor: Colors.brown.shade600,
+        // secondaryHeaderColor: Colors.brown.shade900,
+        // canvasColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: 
+          //Colors.red, 
+          Colors.brown,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.brown.shade400,
+        ),
         fontFamily: bibleState.font,
-        textSelectionColor: Colors.brown.shade100,
-        textSelectionHandleColor: Colors.brown.shade400,
+        textSelectionTheme: TextSelectionThemeData( selectionHandleColor: Colors.brown.shade400, selectionColor: Colors.brown.shade100),
       );
 
   ThemeData genie(bibleState) => ThemeData(
-        primaryColor: Colors.indigo.shade300,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: 
+          //Colors.red, 
+          Colors.indigo.shade900,
+        ),
+        appBarTheme: AppBarTheme(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.indigo.shade200,
+        ),
+        
         canvasColor: Colors.indigo.shade100,
-        accentColor: Colors.indigo[900],
+        // secondaryHeaderColor: Colors.indigo[900],
         textTheme: TextTheme(
-          headline1:
-              TextStyle(color: Colors.black, fontSize: bibleState.fontSize),
-          button: TextStyle(color: Colors.black),
-          headline4: TextStyle(fontSize: bibleState.fontSize),
+          headlineMedium:
+              TextStyle(color: Colors.white, backgroundColor: Colors.indigo.shade900, fontSize: bibleState.fontSize),
+          // button: TextStyle(color: Colors.black),
+          headlineSmall: TextStyle(fontSize: bibleState.fontSize),
         ),
         fontFamily: bibleState.font,
-        textSelectionHandleColor: Colors.indigo.shade400,
-        textSelectionColor: Colors.indigo.shade200,
+        textSelectionTheme: TextSelectionThemeData( selectionHandleColor: Colors.indigo.shade400, selectionColor: Colors.indigo.shade200),
       );
 }

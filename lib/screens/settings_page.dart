@@ -24,7 +24,7 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           SwitchListTile(
-            activeColor: Theme.of(context).accentColor,
+            activeColor: Theme.of(context).secondaryHeaderColor,
             title: Text("Text View"),
             subtitle: Text("Bulleted verses"),
             value: bibleState.viewSlider,
@@ -40,7 +40,7 @@ class SettingsPage extends StatelessWidget {
             subtitle: Text("Adjust font size"),
           ),
           Slider(
-            activeColor: Theme.of(context).accentColor,
+            activeColor: Theme.of(context).secondaryHeaderColor,
             min: 0.0,
             max: 10.0,
             label: "${bibleState.fontSize}",
@@ -79,7 +79,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                 )
               ],
-              onChanged: (String newFont) {
+              onChanged: (String? newFont) {
                 bibleState.font = newFont;
               },
             ),
@@ -98,18 +98,18 @@ class SettingsPage extends StatelessWidget {
                 Container(
                   height: buttonSize,
                   width: buttonSize,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       bibleState.theme = 'soft green';
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(0.0),
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(5.0),
+                    // ),
+                    // padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Colors.green[200], Colors.white],
+                          colors: [Colors.green.shade200, Colors.white],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -121,14 +121,14 @@ class SettingsPage extends StatelessWidget {
                 Container(
                   height: buttonSize,
                   width: buttonSize,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       bibleState.theme = 'brown';
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(0.0),
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(5.0),
+                    // ),
+                    // padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -144,14 +144,14 @@ class SettingsPage extends StatelessWidget {
                 Container(
                   height: buttonSize,
                   width: buttonSize,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       bibleState.theme = 'genie';
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(0.0),
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(5.0),
+                    // ),
+                    // padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -170,14 +170,14 @@ class SettingsPage extends StatelessWidget {
                 Container(
                   height: buttonSize,
                   width: buttonSize,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       bibleState.theme = 'dark';
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(0.0),
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(5.0),
+                    // ),
+                    // padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
