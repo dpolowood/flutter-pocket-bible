@@ -7,17 +7,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class BibleBloc with ChangeNotifier {
   DatabaseHelper _databaseHelper = DatabaseHelper();
-  String bookValue;
-  String chapterValue;
+  late String bookValue;
+  late String chapterValue;
   ScrollController myScrollController = ScrollController();
-  List<Verses> versesItems = List<Verses>();
-  List<Books> bookList = List<Books>();
-  List<String> chapterList = List<String>();
-  String bookQuery;
+  List<Verses> versesItems = [];
+  List<Books> bookList = [];
+  List<String> chapterList = [];
+  String bookQuery = '';
 
   Map _bookNumberMap = Map();
   Map _bookNameMap = Map();
-  List _bookNumbers = List();
+  List _bookNumbers = [];
 
   String databaseName = 'RV1960.db';
   String _theme = 'brown';
@@ -26,12 +26,12 @@ class BibleBloc with ChangeNotifier {
   double _slider = 0.0;
   String _textView = "\n";
   bool _viewSlider = true;
-  List<Verses> _textoList = List<Verses>();
+  List<Verses> _textoList = [];
 
   BibleBloc() {
     bookValue = "10";
     chapterValue = "1";
-    _textoList =  List<Verses>();
+    _textoList =  List<Verses>.empty();
     getValueSP();
     // this.onStart(databaseName);
     print(databaseName);
@@ -71,7 +71,7 @@ class BibleBloc with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.containsKey('fontSize') == true) {
-      slider = prefs.getDouble('fontSize') - 14;
+      slider = (prefs.getDouble('fontSize') ?? 0) - 14;
     }
     if (prefs.containsKey('textBoxMarker') == true) {
       viewSlider = prefs.getBool('textBoxMarker');
@@ -83,7 +83,7 @@ class BibleBloc with ChangeNotifier {
       theme = prefs.getString('theme');
     }
     if(prefs.containsKey('language') == true) {
-      databaseName = prefs.getString('language');
+      databaseName = prefs.getString('language') ?? 'en';
       onStart(databaseName);
     } else {
       onStart(databaseName);
@@ -258,7 +258,7 @@ class BibleBloc with ChangeNotifier {
   }
 
   swipeResults(start, update, smallSwipe, longSwipe) {
-    int swipe = start-update;
+    double swipe = start-update;
     if (swipe > smallSwipe && swipe < longSwipe) {
       nextChapter();
     } else if (swipe > longSwipe) {

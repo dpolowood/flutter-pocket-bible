@@ -49,7 +49,7 @@ class BibleSearch extends SearchDelegate {
           var results = snapshot.data;
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
-          } else if (results.length == 0) {
+          } else if (results?.length == 0) {
             return Container(
               child: Center(
                 child: Text("No Results"),
@@ -58,22 +58,22 @@ class BibleSearch extends SearchDelegate {
           } else {
             return Container(
               child: ListView.builder(
-                itemCount: results.length,
+                itemCount: results?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     child: ListTile(
                       dense: true,
                       leading: Text(
-                        "${bibleState.bookNumberMap[results[index].verseBookNumber]} " +
-                            "${results[index].chapter}",
+                        "${bibleState.bookNumberMap[results?[index].verseBookNumber]} " +
+                            "${results?[index].chapter}",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      title: Text("${results[index].verseNumber} " +
-                          results[index].text),
+                      title: Text("${results?[index].verseNumber} " +
+                          (results?[index].text ?? '')),
                       onTap: () {
                         bibleState.quitSearch(
-                            "${results[index].verseBookNumber}",
-                            "${results[index].chapter}");
+                            "${results?[index].verseBookNumber}",
+                            "${results?[index].chapter}");
                         close(context, null);
                       },
                     ),

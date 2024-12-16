@@ -9,8 +9,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:pocketbible/models/bible_tables.dart';
 
 class DatabaseHelper {
-  static DatabaseHelper _databaseHelper;
-  static Database _database;
+  DatabaseHelper._internal();
+  static final DatabaseHelper _databaseHelper = DatabaseHelper._internal();
+  static Database? _database;
 
   String searchQuery = "";
 
@@ -22,22 +23,21 @@ class DatabaseHelper {
   String verseNumber = 'verse';
   String text = 'text';
   
-  DatabaseHelper._createInstance();
 
   factory DatabaseHelper() {
-    if (_databaseHelper == null) {
-      _databaseHelper = DatabaseHelper._createInstance();
-    }
+    // if (_databaseHelper == null) {
+    //   _databaseHelper = DatabaseHelper._createInstance();
+    // }
 
     return _databaseHelper;
   }
 
   Future<Database> get database async {
-    /*if (_database == null) {
+    if (_database == null) {
       _database = await initializeDatabase('RV1960.db');
-    }*/
+    }
 
-    return _database;
+    return _database!;
   }
 
   Future<Database> initializeDatabase(String databaseName) async {
@@ -69,7 +69,7 @@ class DatabaseHelper {
 
     _database = await openDatabase(path);
 
-    return _database;
+    return _database!;
   }
 
   Future<List<Map<String, dynamic>>> getBibleMapList() async {
@@ -80,7 +80,7 @@ class DatabaseHelper {
   Future<List<Books>> getBookList() async {
     var bibleMapList = await getBibleMapList();
     int count = bibleMapList.length;
-    List<Books> bookList = List<Books>();
+    List<Books> bookList = [];
 
     for (int ii = 0; ii < count; ii++) {
       bookList.add(Books.fromMapObject(bibleMapList[ii]));
@@ -99,7 +99,7 @@ class DatabaseHelper {
   Future<List<String>> getChapterList(int bookNumber) async {
     var chapterMapList = await getChapterMapList(bookNumber);
     int count = chapterMapList.length;
-    List<String> versesList = List<String>();
+    List<String> versesList = [];
 
     for (int ii = 0; ii < count; ii++) {
       versesList.add('${chapterMapList[ii][chapter]}');
@@ -117,8 +117,8 @@ class DatabaseHelper {
 
   Future<List<Verses>> getTextList(String bookNumber, int chapter) async {
     var textoMapList = await getTextMapList(bookNumber, chapter);
-    List<String> textList = List<String>();
-    List<Verses> verseModel = List<Verses>();
+    List<String> textList = [];
+    List<Verses> verseModel = [];
     RegExp regExp =
         RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
 
@@ -127,7 +127,7 @@ class DatabaseHelper {
       var texto = verseModel[ii].text;
       var matches = regExp.allMatches(texto);
       matches.forEach((match) {
-        texto = texto.replaceAll(match.group(0), '');
+        texto = texto.replaceAll(match.group(0)!, '');
       });
       textList.add(texto.replaceAll('  ',' '));
 
@@ -148,7 +148,7 @@ class DatabaseHelper {
 
   Future<List<Verses>> getResults(String query) async {
     var resultsMapList = await getResultsMap(query);
-    List<Verses> verseModel = List<Verses>();
+    List<Verses> verseModel = [];
     RegExp regExp =
         RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
 
@@ -157,7 +157,7 @@ class DatabaseHelper {
       var texto = verseModel[ii].text;
       var matches = regExp.allMatches(texto);
       matches.forEach((match) {
-        texto = texto.replaceAll(match.group(0), '');
+        texto = texto.replaceAll(match.group(0)!, '');
       });
       var index = texto.toLowerCase().indexOf(query.toLowerCase());
       if (index > 30) {

@@ -102,7 +102,7 @@ class BibleHomePage extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(
                       text: " ${verse.verseNumber + 1} ",
-                      style: Theme.of(context).textTheme.overline,
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                     TextSpan(
                       children: textSpanQuery(verse, context),
@@ -116,39 +116,50 @@ class BibleHomePage extends StatelessWidget {
         ),
       );
 
+  /**
+   * 
+   * The purpose of this method is to highlight specific parts of the verse text that match the user's query, 
+   * allowing for a visually distinct representation of the queried text within the overall verse. 
+   * This is useful for enhancing the readability and usability of the app, 
+   * especially when users are searching for specific verses or phrases.
+   */
   List<TextSpan> textSpanQuery(verseObject, context) {
     var verseString = verseObject.text;
-    var verseQuery = bibleState.bookQuery;
+    var verseQuery = bibleState.bookQuery.toLowerCase();
     var verseString1 = "";
-    List<TextSpan> newList = new List<TextSpan>();
+    var insert = '';
+    List<TextSpan> newList = [];
 
-    if (bibleState.bookQuery != null) {
-      while (verseString.contains(verseQuery)) {
+    if (verseQuery != "") {
+      int index = verseString.toLowerCase().indexOf(verseQuery);
+      while (index != -1) {
         verseString1 =
-            verseString.substring(0, verseString.indexOf(verseQuery));
+            verseString.substring(0, index);
+        insert = verseString.substring(index, index + verseQuery.length);
         verseString = verseString.substring(
-            verseString.indexOf(verseQuery) + verseQuery.length,
+            index + verseQuery.length,
             verseString.length);
 
         newList.add(
           TextSpan(
             text: verseString1,
-            style: Theme.of(context).textTheme.headline1,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
         );
         newList.add(
           TextSpan(
-            text: verseQuery,
-            style: Theme.of(context).textTheme.headline4,
+            text: insert,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
         );
+        index = verseString.toLowerCase().indexOf(verseQuery);
       }
     }
 
     newList.add(
       TextSpan(
         text: verseString + bibleState.textView,
-        style: Theme.of(context).textTheme.headline4,
+        style: Theme.of(context).textTheme.headlineSmall,
       ),
     );
 
@@ -161,7 +172,7 @@ class BibleHomePage extends StatelessWidget {
           bibleState.onBookSelect(userValue);
         },
         value: bibleState.getBookValue(),
-        style: Theme.of(context).textTheme.button,
+        style: Theme.of(context).textTheme.titleSmall,
         isDense: true,
         elevation: 8,
       );
@@ -172,15 +183,13 @@ class BibleHomePage extends StatelessWidget {
           bibleState.onChapterSelect(userValue);
         },
         value: bibleState.getChapterValue(),
-        style: Theme.of(context).textTheme.button,
+        style: Theme.of(context).textTheme.titleSmall,
         isDense: true,
         elevation: 8,
       );
 
   makeBookDropDown() {
-    List<DropdownMenuItem> bookItems = List<DropdownMenuItem>();
-
-    bookItems = bibleState.bookList.map(
+    List<DropdownMenuItem> bookItems = bibleState.bookList.map(
       (Books book) {
         return DropdownMenuItem(
           value: "${book.bookNumber}",
@@ -193,9 +202,7 @@ class BibleHomePage extends StatelessWidget {
   }
 
   makeChapterDropDown() {
-    List<DropdownMenuItem> chapterItems = List<DropdownMenuItem>();
-
-    chapterItems = bibleState.chapterList.map(
+    List<DropdownMenuItem> chapterItems = bibleState.chapterList.map(
       (String chapter) {
         return DropdownMenuItem(
           value: "$chapter",
