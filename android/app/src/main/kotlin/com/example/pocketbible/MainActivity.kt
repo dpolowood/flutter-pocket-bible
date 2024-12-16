@@ -1,4 +1,4 @@
-package com.dpolowood.TheSimpleBible;
+package com.dpolowood.pocketbible;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
