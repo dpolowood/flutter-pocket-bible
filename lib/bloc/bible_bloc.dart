@@ -10,8 +10,8 @@ class BibleBloc with ChangeNotifier {
     late String bookValue;
     late String chapterValue;
     ScrollController myScrollController = ScrollController();
-    List<Verses> versesItems = [];
-    List<Books> bookList = [];
+    List<Verse> versesItems = [];
+    List<Book> bookList = [];
     List<String> chapterList = [];
     String bookQuery = '';
 
@@ -26,12 +26,12 @@ class BibleBloc with ChangeNotifier {
     double _slider = 0.0;
     String _textView = "\n";
     bool _viewSlider = true;
-    List<Verses> _textoList = [];
+    List<Verse> _textoList = [];
 
     BibleBloc() {
         bookValue = "10";
         chapterValue = "1";
-        _textoList =  List<Verses>.empty();
+        _textoList =  List<Verse>.empty();
         getValueSP();
         // this.onStart(databaseName);
         print(databaseName);
@@ -147,7 +147,7 @@ class BibleBloc with ChangeNotifier {
     double get fontSize => slider + 14;
     double get overline => _overline;
     String get theme => _theme;
-    List<Verses> get textoList => _textoList;
+    List<Verse> get textoList => _textoList;
     Map get bookNumberMap => _bookNumberMap;
     Map get bookNameMap => _bookNameMap;
 
@@ -157,14 +157,14 @@ class BibleBloc with ChangeNotifier {
 
     Future onStart(databaseName) async {
         await _databaseHelper.initializeDatabase(databaseName);
-        bookList = await _databaseHelper.getBookList();
+        bookList = await _databaseHelper.getBooks();
         await updateChapterView(int.parse(bookValue), int.parse(chapterValue));
 
         bookList.forEach(
-            (Books book) {
-                _bookNumbers.add("${book.bookNumber}");
-                _bookNumberMap[book.bookNumber] = book.bookName;
-                _bookNameMap[book.bookName] = book.bookNumber;
+            (Book book) {
+                _bookNumbers.add("${book.id}");
+                _bookNumberMap[book.id] = book.title;
+                _bookNameMap[book.title] = book.id;
             },
         );
     }
@@ -237,7 +237,7 @@ class BibleBloc with ChangeNotifier {
     }
 
     Future updateChapterView(int bookNumber, int checkValue) async {
-        chapterList = await _databaseHelper.getChapterList(bookNumber);
+        chapterList = await _databaseHelper.getChapters(bookNumber);
 
         if (checkValue == -1) {
             textoList = await updateText(chapterList.length);
@@ -248,10 +248,10 @@ class BibleBloc with ChangeNotifier {
     }
 
     Future updateText(int chapter) async {
-        return await _databaseHelper.getTextList(bookValue, chapter);
+        return await _databaseHelper.getVerses(bookValue, chapter);
     }
 
-    Future<List<Verses>> updateResults(String query) async {
+    Future<List<Verse>> updateResults(String query) async {
         final resultsList = await _databaseHelper.getResults(query);
         bookQuery = query;
         return resultsList;
