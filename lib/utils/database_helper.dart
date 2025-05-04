@@ -25,10 +25,6 @@ class DatabaseHelper {
 
 
     factory DatabaseHelper() {
-        // if (_databaseHelper == null) {
-        //   _databaseHelper = DatabaseHelper._createInstance();
-        // }
-
         return _databaseHelper;
     }
 
