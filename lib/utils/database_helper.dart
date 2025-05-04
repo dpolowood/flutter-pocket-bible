@@ -21,7 +21,6 @@ class DatabaseHelper {
     String verseBookNumber = 'book_number';
     String chapter = 'chapter';
     String verseNumber = 'verse';
-    String text = 'text';
 
 
     factory DatabaseHelper() {
@@ -102,7 +101,6 @@ class DatabaseHelper {
 
     Future<List<Verse>> getVerses(String id, int chapter) async {
         var verseMaps = await _queryVerses(id, chapter);
-        //List<String> verses = [];
         List<Verse> verses = [];
         RegExp regExp = RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
 
@@ -130,12 +128,12 @@ class DatabaseHelper {
 
     Future<List<Verse>> getResults(String query) async {
         var resultMaps = await _getResultMaps(query);
-        List<Verse> verseModel = [];
+        List<Verse> verses = [];
         RegExp regExp = RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
 
         for (int ii = 0; ii < resultMaps.length; ii++) {
-            verseModel.add(Verse.fromMap(resultMaps[ii]));
-            var text = verseModel[ii].text;
+            verses.add(Verse.fromMap(resultMaps[ii]));
+            var text = verses[ii].text;
             var matches = regExp.allMatches(text);
             matches.forEach((match) {
                 text = text.replaceAll(match.group(0)!, '');
@@ -148,9 +146,9 @@ class DatabaseHelper {
             if (text.length > query.length + 63) {
                 text = text.substring(0, query.length + 63) + "...";
             }
-            verseModel[ii].text = text.replaceAll('  ',' ');
+            verses[ii].text = text.replaceAll('  ',' ');
         }
 
-        return verseModel;
+        return verses;
     }
 }
