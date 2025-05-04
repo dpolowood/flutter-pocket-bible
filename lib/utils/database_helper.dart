@@ -21,14 +21,9 @@ class DatabaseHelper {
     String verseBookNumber = 'book_number';
     String chapter = 'chapter';
     String verseNumber = 'verse';
-    String text = 'text';
 
 
     factory DatabaseHelper() {
-        // if (_databaseHelper == null) {
-        //   _databaseHelper = DatabaseHelper._createInstance();
-        // }
-
         return _databaseHelper;
     }
 
@@ -40,13 +35,9 @@ class DatabaseHelper {
         return _database!;
     }
 
-    Future<Database> initializeDatabase(String databaseName) async {
+    Future<Database> initializeDatabase(String dbName) async {
         var databasesPath = await getDatabasesPath();
-        var path = join(databasesPath, databaseName);
-
-        // var path = join(databasesPath, 'RV1960.db');
-        // print(path);
-        // deleteDatabase(path);
+        var path = join(databasesPath, dbName);
 
         var exists = await databaseExists(path);
 
@@ -57,7 +48,7 @@ class DatabaseHelper {
                 await Directory(dirname(path)).create(recursive: true);
             } catch (_) {}
 
-            ByteData data = await rootBundle.load(join("assets", databaseName));
+            ByteData data = await rootBundle.load(join("assets", dbName));
             List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
             await File(path).writeAsBytes(bytes, flush: true);
@@ -70,100 +61,94 @@ class DatabaseHelper {
         return _database!;
     }
 
-    Future<List<Map<String, dynamic>>> getBibleMapList() async {
+    Future<List<Map<String, dynamic>>> _queryBooks() async {
         Database db = await this.database;
         return await db.query(booksTable);
     }
 
-    Future<List<Books>> getBookList() async {
-        var bibleMapList = await getBibleMapList();
-        int count = bibleMapList.length;
-        List<Books> bookList = [];
+    Future<List<Book>> getBooks() async {
+        var bibleMaps = await _queryBooks();
+        List<Book> books = [];
 
-        for (int ii = 0; ii < count; ii++) {
-            bookList.add(Books.fromMapObject(bibleMapList[ii]));
+        for (int ii = 0; ii < bibleMaps.length; ii++) {
+            books.add(Book.fromMap(bibleMaps[ii]));
         }
 
-        return bookList;
+        return books;
     }
 
-    Future<List<Map<String, dynamic>>> getChapterMapList(int bookNumber) async {
+    Future<List<Map<String, dynamic>>> _queryChapters(int id) async {
         Database db = await this.database;
-        var query = 'SELECT DISTINCT chapter FROM "verses" WHERE book_number = $bookNumber';
+        var query = 'SELECT DISTINCT chapter FROM "verses" WHERE book_number = $id';
         return await db.rawQuery(query);
     }
 
-    Future<List<String>> getChapterList(int bookNumber) async {
-        var chapterMapList = await getChapterMapList(bookNumber);
-        int count = chapterMapList.length;
-        List<String> versesList = [];
+    Future<List<String>> getChapters(int id) async {
+        var chapterMaps = await _queryChapters(id);
+        List<String> chapterNumbers = [];
 
-        for (int ii = 0; ii < count; ii++) {
-            versesList.add('${chapterMapList[ii][chapter]}');
+        for (int ii = 0; ii < chapterMaps.length; ii++) {
+            chapterNumbers.add(chapterMaps[ii]['chapter'].toString());
         }
-        return versesList;
+        return chapterNumbers;
     }
 
-    Future<List<Map<String, dynamic>>> getTextMapList(String bookNumber, int chapter) async {
+    Future<List<Map<String, dynamic>>> _queryVerses(String id, int chapter) async {
         Database db = await this.database;
-        var query = 'SELECT text FROM "verses" WHERE chapter = $chapter AND book_number = $bookNumber';
+        var query = 'SELECT text FROM "verses" WHERE chapter = $chapter AND book_number = $id';
         return await db.rawQuery(query);
     }
 
-    Future<List<Verses>> getTextList(String bookNumber, int chapter) async {
-        var textoMapList = await getTextMapList(bookNumber, chapter);
-        List<String> textList = [];
-        List<Verses> verseModel = [];
-        RegExp regExp =
-        RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
+    Future<List<Verse>> getVerses(String id, int chapter) async {
+        var verseMaps = await _queryVerses(id, chapter);
+        List<Verse> verses = [];
+        RegExp regExp = RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
 
-        for (int ii = 0; ii < textoMapList.length; ii++) {
-            verseModel.add(Verses.fromMapObject(textoMapList[ii]));
-            var texto = verseModel[ii].text;
-            var matches = regExp.allMatches(texto);
+        for (int ii = 0; ii < verseMaps.length; ii++) {
+            verses.add(Verse.fromMap(verseMaps[ii]));
+            var text = verses[ii].text;
+            var matches = regExp.allMatches(text);
             matches.forEach((match) {
-                texto = texto.replaceAll(match.group(0)!, '');
+                text = text.replaceAll(match.group(0)!, '');
             });
-            textList.add(texto.replaceAll('  ',' '));
 
-            verseModel[ii].text = texto.replaceAll('  ', ' ');
-            verseModel[ii].verseNumber = ii;
+            verses[ii].text = text.replaceAll('  ', ' ');
+            verses[ii].verseNumber = ii;
         }
 
-        return verseModel;
+        return verses;
     }
 
-    Future<List<Map<String, dynamic>>> getResultsMap(String query) async {
+    Future<List<Map<String, dynamic>>> _getResultMaps(String query) async {
         Database db = await this.database;
         var sqlQuery = 'SELECT book_number, chapter, verse, `text` FROM verses WHERE `text` LIKE "%$query%"';
 
         return await db.rawQuery(sqlQuery);
     }
 
-    Future<List<Verses>> getResults(String query) async {
-        var resultsMapList = await getResultsMap(query);
-        List<Verses> verseModel = [];
-        RegExp regExp =
-        RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
+    Future<List<Verse>> getResults(String query) async {
+        var resultMaps = await _getResultMaps(query);
+        List<Verse> verses = [];
+        RegExp regExp = RegExp(r'(\<[fmSnh]\>[^\<]*\<\/[fmSnh]\>|\<pb\/\>|\<br\/\>|\<[tiJe]\>|\<\/[tiJe]\>)', multiLine: true);
 
-        for (int ii = 0; ii < resultsMapList.length; ii++) {
-            verseModel.add(Verses.fromMapObject(resultsMapList[ii]));
-            var texto = verseModel[ii].text;
-            var matches = regExp.allMatches(texto);
+        for (int ii = 0; ii < resultMaps.length; ii++) {
+            verses.add(Verse.fromMap(resultMaps[ii]));
+            var text = verses[ii].text;
+            var matches = regExp.allMatches(text);
             matches.forEach((match) {
-                texto = texto.replaceAll(match.group(0)!, '');
+                text = text.replaceAll(match.group(0)!, '');
             });
-            var index = texto.toLowerCase().indexOf(query.toLowerCase());
+            var index = text.toLowerCase().indexOf(query.toLowerCase());
             if (index > 30) {
-                texto = "..." + texto.substring(index - 30);
+                text = "..." + text.substring(index - 30);
             }
 
-            if (texto.length > query.length + 63) {
-                texto = texto.substring(0, query.length + 63) + "...";
+            if (text.length > query.length + 63) {
+                text = text.substring(0, query.length + 63) + "...";
             }
-            verseModel[ii].text = texto.replaceAll('  ',' ');
+            verses[ii].text = text.replaceAll('  ',' ');
         }
 
-        return verseModel;
+        return verses;
     }
 }

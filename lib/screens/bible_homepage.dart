@@ -96,7 +96,7 @@ class BibleHomePage extends StatelessWidget {
         child: SelectableText.rich(
             TextSpan(
                 children: bibleState.textoList.map<InlineSpan>(
-                    (Verses verse) {
+                    (Verse verse) {
                         return TextSpan(
                             children: <TextSpan>[
                                 TextSpan(
@@ -188,10 +188,10 @@ class BibleHomePage extends StatelessWidget {
 
     makeBookDropDown() {
         List<DropdownMenuItem> bookItems = bibleState.bookList.map(
-            (Books book) {
+            (Book book) {
                 return DropdownMenuItem(
-                    value: "${book.bookNumber}",
-                    child: Text(book.bookName),
+                    value: "${book.id}",
+                    child: Text(book.title),
                 );
             },
         ).toList();

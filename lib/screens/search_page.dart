@@ -43,7 +43,7 @@ class BibleSearch extends SearchDelegate {
     @override
     Widget buildResults(BuildContext context) {
         if (query != '') {
-            return FutureBuilder<List<Verses>>(
+            return FutureBuilder<List<Verse>>(
                 future: bibleState.updateResults(query),
                 builder: (context, snapshot) {
                     var results = snapshot.data;

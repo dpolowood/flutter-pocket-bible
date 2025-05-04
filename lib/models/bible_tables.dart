@@ -1,24 +1,41 @@
-class Books {
-    late int bookNumber;
-    late String bookName;
+class Book {
+    final int id;
+    final String title;
 
-    Books({required this.bookNumber, required this.bookName});
+    Book({
+        required this.id,
+        required this.title
+    });
 
-    Books.fromMapObject(Map<String, dynamic> map) {
-        this.bookNumber = map['book_number'];
-        this.bookName = map['long_name'];
+    factory Book.fromMap(Map<String, dynamic> map) {
+        return Book(
+            id: map['book_number'],
+            title: map['long_name'],
+        );
+    }
+
+    Map<String, dynamic> toMap() {
+        return {
+            'book_number': id,
+            'long_name': title,
+        };
     }
 }
 
-class Verses {
+class Verse {
     late int verseBookNumber;
     late int chapter;
     late int verseNumber;
     late String text;
 
-    Verses({required this.verseBookNumber, required this.chapter, required this.text, required this.verseNumber});
+    Verse({
+        required this.verseBookNumber,
+        required this.chapter,
+        required this.text,
+        required this.verseNumber
+    });
 
-    Verses.fromMapObject(Map<String, dynamic> map) {
+    Verse.fromMap(Map<String, dynamic> map) {
         this.verseBookNumber = map['book_number'] ?? 0;
         this.chapter = map['chapter'] ?? 0;
         this.verseNumber = map['verse'] ?? 0;
