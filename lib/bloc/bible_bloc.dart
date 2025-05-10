@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pocketbible/models/bible_tables.dart';
 import 'package:pocketbible/utils/database_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pocketbible/utils/user_preferences.dart';
 
 class BibleBloc with ChangeNotifier {
     DatabaseHelper _databaseHelper = DatabaseHelper();
@@ -24,70 +24,41 @@ class BibleBloc with ChangeNotifier {
     String _font = 'Montserrat';
     double _overline = 8.0;
     double _slider = 0.0;
-    String _textView = "\n";
+    String _textView = '\n';
     bool _viewSlider = true;
     List<Verse> _textoList = [];
 
     BibleBloc() {
-        bookValue = "10";
-        chapterValue = "1";
+        bookValue = '10';
+        chapterValue = '1';
         _textoList =  List<Verse>.empty();
         getValueSP();
         // this.onStart(databaseName);
         print(databaseName);
     }
 
-    Future addFontSizetoSP(newFontSize) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+    Future<void> getValueSP() async {
+        final fontSize = await UserPreferences.getFontSize();
+        final textBox = await UserPreferences.getTextView();
+        final fontPref = await UserPreferences.getFont();
+        final themePref = await UserPreferences.getTheme();
+        final languagePref = await UserPreferences.getLanguage();
 
-        prefs.setDouble('fontSize', newFontSize);
-    }
-
-    Future addFonttoSP(newFont) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        prefs.setString('font', newFont);
-    }
-
-    Future addThemetoSP(newTheme) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        prefs.setString('theme', newTheme);
-    }
-
-    Future addTextViewtoSP(newView) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        prefs.setBool('textBoxMarker', newView);
-    }
-
-    Future addLanguagetoSP(newLanguage) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        prefs.setString('language', newLanguage);
-    }
-
-    Future getValueSP() async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        if (prefs.containsKey('fontSize') == true) {
-            slider = (prefs.getDouble('fontSize') ?? 0) - 14;
+        if (fontSize != null) {
+            slider = fontSize - 14;
         }
-        if (prefs.containsKey('textBoxMarker') == true) {
-            viewSlider = prefs.getBool('textBoxMarker');
+        if (textBox != null) {
+            viewSlider = textBox;
         }
-        if (prefs.containsKey('font') == true) {
-            font = prefs.getString('font');
+        if (fontPref != null) {
+            font = fontPref;
         }
-        if (prefs.containsKey('theme') == true) {
-            theme = prefs.getString('theme');
+        if (themePref != null) {
+            theme = themePref;
         }
-        if(prefs.containsKey('language') == true) {
-            databaseName = prefs.getString('language') ?? 'en';
-            onStart(databaseName);
-        } else {
-            onStart(databaseName);
-        }
+
+        databaseName = languagePref ?? 'RV1960.db';
+        await onStart(databaseName);
     }
 
     set textoList(newText) {
@@ -99,7 +70,7 @@ class BibleBloc with ChangeNotifier {
     set theme(newTheme) {
         _theme = newTheme;
 
-        addThemetoSP(_theme);
+        UserPreferences.setTheme(_theme);
 
         notifyListeners();
     }
@@ -107,7 +78,7 @@ class BibleBloc with ChangeNotifier {
     set font(newFont) {
         _font = newFont;
 
-        addFonttoSP(_font);
+        UserPreferences.setFont(_font);
 
         notifyListeners();
     }
@@ -115,7 +86,7 @@ class BibleBloc with ChangeNotifier {
     set slider(newSlider) {
         _slider = newSlider;
 
-        addFontSizetoSP(_slider + 14);
+        UserPreferences.setFontSize(_slider + 14);
 
         notifyListeners();
     }
@@ -123,13 +94,13 @@ class BibleBloc with ChangeNotifier {
     set viewSlider(newSlider) {
         _viewSlider = newSlider;
 
-        if (_viewSlider == true) {
+        if (_viewSlider) {
             textView = "\n";
         } else {
             textView = "";
         }
 
-        addTextViewtoSP(_viewSlider);
+        UserPreferences.setTextView(_viewSlider);
 
         notifyListeners();
     }
@@ -231,7 +202,7 @@ class BibleBloc with ChangeNotifier {
     void changeVersion(newDatabaseName) async {
         databaseName = newDatabaseName;
 
-        addLanguagetoSP(databaseName);
+        await UserPreferences.setLanguage(databaseName);
 
         await onStart(databaseName);
     }

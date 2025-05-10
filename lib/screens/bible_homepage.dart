@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pocketbible/models/bible_tables.dart';
@@ -68,8 +67,7 @@ class BibleHomePage extends StatelessWidget {
                         ],
                     ),
                     SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (context, index) => GestureDetector(
+                        delegate: SliverChildBuilderDelegate((context, index) => GestureDetector(
                             onHorizontalDragStart: (DragStartDetails start) {
                                 startPosition = start.globalPosition.dx;
                             },
@@ -81,8 +79,8 @@ class BibleHomePage extends StatelessWidget {
                                 startPosition, updatePosition, smallSwipe, longSwipe);
                             },
                             child: textBox(bibleState, context),
-                            ),
-                            childCount: 1,
+                        ),
+                        childCount: 1,
                         ),
                     ),
                 ],
@@ -111,7 +109,7 @@ class BibleHomePage extends StatelessWidget {
                     },
                 ).toList(),
             ),
-        toolbarOptions: ToolbarOptions(copy: true),
+            toolbarOptions: ToolbarOptions(copy: true),
         ),
     );
 
@@ -141,13 +139,13 @@ class BibleHomePage extends StatelessWidget {
                 newList.add(
                     TextSpan(
                         text: verseString1,
-                        style: Theme.of(context).textTheme.headlineSmall,
+                        style: Theme.of(context).textTheme.bodyMedium,
                     ),
                 );
                 newList.add(
                     TextSpan(
                         text: insert,
-                        style: Theme.of(context).textTheme.headlineMedium,
+                        style: Theme.of(context).textTheme.bodySmall,
                     ),
                 );
                 index = verseString.toLowerCase().indexOf(verseQuery);
@@ -157,7 +155,7 @@ class BibleHomePage extends StatelessWidget {
         newList.add(
             TextSpan(
                 text: verseString + bibleState.textView,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.bodyMedium,
             ),
         );
 

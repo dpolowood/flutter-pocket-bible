@@ -56,17 +56,48 @@ class MyApp extends StatelessWidget {
         return softGreen(bibleState);
     }
 
+    final Color crust = Color(0xFF11111b);
+    final Color mantle = Color(0xFF181825);
+    final Color base = Color(0xFF1e1e2e);
+    final Color text = Color(0xFFcdd6f4);
+    final Color surface = Color(0xFF45475A);
+    final Color lavender = Color(0xFFb4befe);
+    final Color sky = Color(0xFF89dceb);
+    final Color overlay = Color(0xFF6c7086);
+
     ThemeData dark(bibleState) => ThemeData(
         brightness: Brightness.dark,
-        textTheme: TextTheme(
-            headlineMedium: TextStyle(fontSize: bibleState.fontSize,backgroundColor: Colors.white,color: Colors.black),
-            headlineSmall: TextStyle(fontSize: bibleState.fontSize),
+        scaffoldBackgroundColor: base,
+        canvasColor: base,
+        appBarTheme: AppBarTheme(
+            color: crust,
+            foregroundColor: text,
         ),
-        // appBarTheme: AppBarTheme(
-        //   backgroundColor: Colors.green.shade900,
-        // ),
+        textTheme: TextTheme(
+            headlineMedium: TextStyle(
+                fontWeight: FontWeight.bold,
+            ),
+            headlineSmall: TextStyle(
+                fontWeight: FontWeight.bold,
+            ),
+            bodyMedium: TextStyle(
+                color: text,
+                fontSize: bibleState.fontSize,
+            ),
+            bodySmall: TextStyle(
+                color: text,
+                backgroundColor: overlay,
+                fontSize: bibleState.fontSize,
+            ),
+        ),
         fontFamily: bibleState.font,
-        textSelectionTheme: TextSelectionThemeData(selectionColor:  Colors.deepPurple.shade800, selectionHandleColor: Colors.deepPurple.shade400),
+        textSelectionTheme: TextSelectionThemeData(
+            selectionColor:  surface,
+            selectionHandleColor: lavender,
+        ),
+        iconTheme: IconThemeData(
+            color: text,
+        ),
     );
 
     ThemeData softGreen(bibleState) => ThemeData(
@@ -76,40 +107,65 @@ class MyApp extends StatelessWidget {
             Colors.green,
         ),
         textTheme: TextTheme(
-            headlineMedium:
-            TextStyle(color: Colors.white, backgroundColor: Colors.green.shade900, fontSize: bibleState.fontSize),
-            // button: TextStyle(color: Colors.black),
-            headlineSmall: TextStyle(fontSize: bibleState.fontSize),
+            headlineMedium: TextStyle(
+                color: Colors.white,
+                backgroundColor: Colors.green.shade900,
+                fontSize: bibleState.fontSize
+            ),
+            headlineSmall: TextStyle(
+                fontWeight: FontWeight.bold,
+            ),
+            bodyMedium: TextStyle(
+                fontSize: bibleState.fontSize,
+            ),
+            bodySmall: TextStyle(
+                color: text,
+                backgroundColor: Colors.green.shade400,
+                fontSize: bibleState.fontSize,
+            ),
         ),
         appBarTheme: AppBarTheme(
             backgroundColor: Colors.green.shade200,
         ),
-        // brightness: Brightness.light,
         fontFamily: bibleState.font,
-        textSelectionTheme: TextSelectionThemeData( selectionHandleColor: Colors.green.shade400, selectionColor: Colors.green.shade100),
+        textSelectionTheme: TextSelectionThemeData(
+            selectionHandleColor: Colors.green.shade400,
+            selectionColor: Colors.green.shade100
+        ),
     );
 
     ThemeData brown(bibleState) => ThemeData(
         iconTheme: IconThemeData(color: Colors.brown.shade100),
         textTheme: TextTheme(
-            headlineMedium:
-            TextStyle(color: Colors.white, backgroundColor: Colors.brown.shade900, fontSize: bibleState.fontSize),
-            // button: TextStyle(color: Colors.black),
-            headlineSmall: TextStyle(fontSize: bibleState.fontSize),
+            headlineMedium: TextStyle(
+                color: Colors.white,
+                backgroundColor: Colors.brown.shade900,
+                fontSize: bibleState.fontSize
+            ),
+            headlineSmall: TextStyle(
+                fontWeight: FontWeight.bold,
+            ),
+            bodyMedium: TextStyle(
+                fontSize: bibleState.fontSize,
+            ),
+            bodySmall: TextStyle(
+                color: text,
+                backgroundColor: Colors.brown.shade300,
+                fontSize: bibleState.fontSize,
+            ),
         ),
-        // primaryColor: Colors.brown.shade600,
-        // secondaryHeaderColor: Colors.brown.shade900,
-        // canvasColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
             seedColor: 
-            //Colors.red, 
             Colors.brown,
         ),
         appBarTheme: AppBarTheme(
             backgroundColor: Colors.brown.shade400,
         ),
         fontFamily: bibleState.font,
-        textSelectionTheme: TextSelectionThemeData( selectionHandleColor: Colors.brown.shade400, selectionColor: Colors.brown.shade100),
+        textSelectionTheme: TextSelectionThemeData(
+            selectionHandleColor: Colors.brown.shade400,
+            selectionColor: Colors.brown.shade100
+        ),
     );
 
     ThemeData genie(bibleState) => ThemeData(
@@ -123,14 +179,28 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.indigo.shade200,
         ),
         canvasColor: Colors.indigo.shade100,
-        // secondaryHeaderColor: Colors.indigo[900],
         textTheme: TextTheme(
-            headlineMedium:
-            TextStyle(color: Colors.white, backgroundColor: Colors.indigo.shade900, fontSize: bibleState.fontSize),
-            // button: TextStyle(color: Colors.black),
-            headlineSmall: TextStyle(fontSize: bibleState.fontSize),
+            headlineMedium: TextStyle(
+                color: Colors.white,
+                backgroundColor: Colors.indigo.shade900,
+                fontSize: bibleState.fontSize
+            ),
+            headlineSmall: TextStyle(
+                fontWeight: FontWeight.bold,
+            ),
+            bodyMedium: TextStyle(
+                fontSize: bibleState.fontSize,
+            ),
+            bodySmall: TextStyle(
+                color: text,
+                backgroundColor: Colors.indigo.shade400,
+                fontSize: bibleState.fontSize,
+            ),
         ),
         fontFamily: bibleState.font,
-        textSelectionTheme: TextSelectionThemeData( selectionHandleColor: Colors.indigo.shade400, selectionColor: Colors.indigo.shade200),
+        textSelectionTheme: TextSelectionThemeData(
+            selectionHandleColor: Colors.indigo.shade400,
+            selectionColor: Colors.indigo.shade200
+        ),
     );
 }
