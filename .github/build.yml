@@ -1,0 +1,62 @@
+name: Flutter Android Release
+
+on:
+  push:
+    branches: [ "main" ]  # Trigger on push to main branch
+  pull_request:
+    branches: [ "main" ]  # Trigger on PRs to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+      - uses: actions/checkout@v3
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.4'
+          channel: 'stable'
+
+      - name: Get dependencies
+        run: flutter pub get
+          
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
+
+      - name: Inject Build Number
+        run: |
+          BUILD_NUMBER=${{ github.run_number }}
+          sed -i "s/version: 1.0.3/version: 1.0.3+$BUILD_NUMBER/g" pubspec.yaml
+
+      - name: Build App Bundle
+        run: flutter build appbundle --release
+        env:
+          KEYSTORE_PATH: android/app/keystore.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-bundle
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: Create service_account.json
+        run: echo '${{ secrets.PLAY_STORE_SERVICE_ACCOUNT }}' > service_account.json
+
+      # Deploy to Play Store
+      - name: Deploy to Play Store
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: ${{ secrets.PACKAGE_NAME }}
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          track: internal
+
+permissions:
+  contents: write
