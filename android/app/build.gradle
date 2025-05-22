@@ -31,6 +31,12 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def requiredEnvVars = ["KEYSTORE_PATH", "KEYSTORE_PASSWORD", "KEY_ALIAS", "KEY_PASSWORD"]
+requiredEnvVars.each { var ->
+    if (!System.getenv(var)) {
+        throw new GradleException("Missing required environment variable: ${var}")
+    }
+}
 
 android {
     compileSdk 34
